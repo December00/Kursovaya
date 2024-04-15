@@ -10,42 +10,7 @@ namespace WPA {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/*public ref class User
-	{
-	public:
-		String^ login;
-		String^ pas;
-		bool isEnterCorrect(String^ login, String^ pas, String^ path)  {
-			if (login != "" && pas != "") {
-				if (File::Exists(path)) {
-					StreamReader^ sr = gcnew StreamReader(path);
-					String^ line;
-
-					while ((line = sr->ReadLine()) != nullptr) {
-						array<String^>^ arr = line->Split(' ');
-						//функция Split разбивает строку на 2 элемента разделённые
-						// пробелом (в данном случае login и pas)
-						if (arr[0] == login) {
-							MessageBox::Show("Такой логин уже существует.");
-							sr->Close();
-							return 0;
-						}
-					}
-					return 1;
-					sr->Close();
-				}
-				if (login->Contains(" ") || pas->Contains(" ")) {
-					MessageBox::Show("Логин и пароль не должны содержать пробелы.");
-					return 0;
-				}
-
-			}
-			else
-				MessageBox::Show("Логин или пароль введен некорректно");
-			return 0;
-		};
-	};
-	*/
+	
 	/// <summary>
 	/// Сводка для RegForm
 	/// </summary>
@@ -164,7 +129,7 @@ namespace WPA {
 			this->LoginTextBox->Text = L" Введите новый логин";
 			this->LoginTextBox->WordWrap = false;
 			this->LoginTextBox->Click += gcnew System::EventHandler(this, &RegForm::LoginTextBox_Click);
-			this->LoginTextBox->TextChanged += gcnew System::EventHandler(this, &RegForm::LoginTextBox_TextChanged);
+			
 			// 
 			// ExitButton
 			// 
@@ -197,7 +162,7 @@ namespace WPA {
 			this->TopLabel->TabIndex = 8;
 			this->TopLabel->Text = L"Регистрация";
 			this->TopLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
-			this->TopLabel->Click += gcnew System::EventHandler(this, &RegForm::TopLabel_Click);
+			
 			// 
 			// RegForm
 			// 
@@ -280,9 +245,6 @@ namespace WPA {
 		else
 			MessageBox::Show("Логин или пароль введен некорректно");
 	}
-	private: System::Void LoginTextBox_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	}
-	private: System::Void TopLabel_Click(System::Object^ sender, System::EventArgs^ e) {
-	}
+
 	};
 }

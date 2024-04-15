@@ -1,5 +1,5 @@
 #pragma once
-
+#include "MainWindow.h"
 namespace WPA {
 
 	using namespace System;
@@ -102,7 +102,6 @@ namespace WPA {
 			this->LoginTextBox->TabIndex = 16;
 			this->LoginTextBox->Text = L" Логин";
 			this->LoginTextBox->Click += gcnew System::EventHandler(this, &LoginForm::LoginTextBox_Click);
-			this->LoginTextBox->TextChanged += gcnew System::EventHandler(this, &LoginForm::LoginTextBox_TextChanged);
 			// 
 			// ExitButton
 			// 
@@ -198,6 +197,9 @@ namespace WPA {
 					if (login != "admin") {
 						MessageBox::Show("Пользователь успешно авторизовался");
 						sr->Close();
+						MainWindow^ mainwin = gcnew MainWindow();
+						mainwin->Show();
+						this->Hide();
 						return;
 					}
 					else
@@ -218,5 +220,6 @@ namespace WPA {
 	}
 	private: System::Void LoginForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
+
 	};
 }

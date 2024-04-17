@@ -132,6 +132,7 @@
     <ClInclude Include="MainWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="MyClasses.h" />
     <ClInclude Include="RegForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>

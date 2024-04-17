@@ -37,6 +37,7 @@ namespace WPA {
 	private: System::Windows::Forms::Label^ TopLabel;
 	private: System::Windows::Forms::Button^ ExitButton;
 
+
 	protected:
 
 	private:
@@ -67,7 +68,7 @@ namespace WPA {
 			this->TopLabel->Name = L"TopLabel";
 			this->TopLabel->Size = System::Drawing::Size(1200, 40);
 			this->TopLabel->TabIndex = 15;
-			this->TopLabel->Text = L"Главное окно";
+			this->TopLabel->Text = L"Главное меню";
 			this->TopLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			this->TopLabel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainWindow::TopLabel_MouseDown);
 			this->TopLabel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainWindow::TopLabel_MouseMove);
@@ -107,12 +108,15 @@ namespace WPA {
 
 		}
 #pragma endregion
+	Point lastPoint;
+	bool isAuth = (bool)this->Tag;
 	private: System::Void ExitButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
 	}
 	private: System::Void MainWindow_Load(System::Object^ sender, System::EventArgs^ e) {
+
 	}
-		   Point lastPoint;
+		   
 
 	private: System::Void TopLabel_MouseMove(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 		if (e->Button == System::Windows::Forms::MouseButtons::Left) {

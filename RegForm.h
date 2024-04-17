@@ -1,8 +1,10 @@
 #pragma once
 #include "LoginForm.h"
+#include "MyClasses.h"
 using namespace System::IO;
 namespace WPA {
 
+	using namespace MyClass;
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -209,10 +211,9 @@ namespace WPA {
 		this->Hide();
 	}
 	private: System::Void CheckButton_Click(System::Object^ sender, System::EventArgs^ e) {
-		String^ login = this->LoginTextBox->Text;
-		String^ pas = this->PasTextBox->Text;
+		User^ user = gcnew User(this->LoginTextBox->Text,this->PasTextBox->Text);
 		String^ path = "LogPas.txt";
-		if (login != "" && pas != "") {
+		if (user->IsEnterValid()) {
 			if (File::Exists(path)) {
 				StreamReader^ sr = gcnew StreamReader(path);
 				String^ line;
@@ -221,7 +222,7 @@ namespace WPA {
 					array<String^>^ arr = line->Split(' ');
 					//функция Split разбивает строку на 2 элемента разделённые 
 					// пробелом (в данном случае login и pas) 
-					if (arr[0] == login) {
+					if (arr[0] == user->login) {
 						MessageBox::Show("Такой логин уже существует.");
 						sr->Close();
 						return;
@@ -229,12 +230,9 @@ namespace WPA {
 				}
 				sr->Close();
 			}
-			if (login->Contains(" ") || pas->Contains(" ")) {
-				MessageBox::Show("Логин и пароль не должны содержать пробелы.");
-				return;
-			}
+			
 			StreamWriter^ sw = gcnew StreamWriter(path, true);
-			sw->WriteLine(login + " " + pas);
+			sw->WriteLine(user->login + " " + user->pas);
 			sw->Close();
 
 			MessageBox::Show("Пользователь успешно зарегистрирован");

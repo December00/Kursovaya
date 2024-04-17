@@ -1,7 +1,9 @@
 #pragma once
 #include "MainWindow.h"
+#include "MyClasses.h"
 namespace WPA {
 
+	using namespace MyClass;
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -178,45 +180,46 @@ namespace WPA {
 
 
 	private: System::Void CheckButton_Click(System::Object^ sender, System::EventArgs^ e) {
-		String^ login = LoginTextBox->Text;
-		String^ password = PasTextBox->Text;
+		User^ user = gcnew User(LoginTextBox->Text, PasTextBox->Text);
 
 		String^ path = "LogPas.txt";
-
-		if (File::Exists(path))
-		{
-			StreamReader^ sr = gcnew StreamReader(path);
-			String^ line;
-
-			while ((line = sr->ReadLine()) != nullptr)
+		if (user->IsEnterValid()) {
+			if (File::Exists(path))
 			{
-				array<String^>^ arr = line->Split(' ');
+				StreamReader^ sr = gcnew StreamReader(path);
+				String^ line;
 
-				if (arr[0] == login && arr[1] == password)
+				while ((line = sr->ReadLine()) != nullptr)
 				{
-					if (login != "admin") {
-						MessageBox::Show("Пользователь успешно авторизовался");
-						sr->Close();
-						MainWindow^ mainwin = gcnew MainWindow();
-						mainwin->Show();
-						this->Hide();
-						return;
-					}
-					else
+					array<String^>^ arr = line->Split(' ');
+
+					if (arr[0] == user->login && arr[1] == user->pas)
 					{
-						MessageBox::Show("Администратор успешно авторизовался");
-						sr->Close();
-						return;
+						if (user->login != "admin") {
+							MessageBox::Show("Пользователь успешно авторизовался");
+							sr->Close();
+							user->auth = true;
+							MainWindow^ mainwin = gcnew MainWindow();
+							mainwin->Tag = user->auth;
+							mainwin->Show();
+							this->Hide();
+							return;
+						}
+						else
+						{
+							MessageBox::Show("Администратор успешно авторизовался");
+							sr->Close();
+							return;
+						}
 					}
 				}
+				sr->Close();
 			}
-			sr->Close();
+
+			MessageBox::Show("Неверный логин или пароль.");
 		}
-
-		MessageBox::Show("Неверный логин или пароль.");
-	}
-
-	private: System::Void LoginTextBox_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		else
+			MessageBox::Show("Логин или пароль введён некорректно");
 	}
 	private: System::Void LoginForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}

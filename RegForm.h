@@ -212,36 +212,12 @@ namespace WPA {
 	}
 	private: System::Void CheckButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		User^ user = gcnew User(this->LoginTextBox->Text,this->PasTextBox->Text);
-		String^ path = "LogPas.txt";
-		if (user->IsEnterValid()) {
-			if (File::Exists(path)) {
-				StreamReader^ sr = gcnew StreamReader(path);
-				String^ line;
-
-				while ((line = sr->ReadLine()) != nullptr) {
-					array<String^>^ arr = line->Split(' ');
-					//функция Split разбивает строку на 2 элемента разделённые 
-					// пробелом (в данном случае login и pas) 
-					if (arr[0] == user->login) {
-						MessageBox::Show("Такой логин уже существует.");
-						sr->Close();
-						return;
-					}
-				}
-				sr->Close();
-			}
-			
-			StreamWriter^ sw = gcnew StreamWriter(path, true);
-			sw->WriteLine(user->login + " " + user->pas);
-			sw->Close();
-
-			MessageBox::Show("Пользователь успешно зарегистрирован");
+		if (user->Registration()) {
 			LoginForm^ log = gcnew LoginForm();
 			log->Show();
 			this->Hide();
 		}
-		else
-			MessageBox::Show("Логин или пароль введен некорректно");
+		
 	}
 
 	};

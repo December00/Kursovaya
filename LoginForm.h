@@ -182,44 +182,23 @@ namespace WPA {
 	private: System::Void CheckButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		User^ user = gcnew User(LoginTextBox->Text, PasTextBox->Text);
 
-		String^ path = "LogPas.txt";
-		if (user->IsEnterValid()) {
-			if (File::Exists(path))
-			{
-				StreamReader^ sr = gcnew StreamReader(path);
-				String^ line;
-
-				while ((line = sr->ReadLine()) != nullptr)
-				{
-					array<String^>^ arr = line->Split(' ');
-
-					if (arr[0] == user->login && arr[1] == user->pas)
-					{
-						if (user->login != "admin") {
-							MessageBox::Show("Пользователь успешно авторизовался");
-							sr->Close();
-							user->auth = true;
-							MainWindow^ mainwin = gcnew MainWindow();
-							mainwin->Tag = user->auth;
-							mainwin->Show();
-							this->Hide();
-							return;
-						}
-						else
-						{
-							MessageBox::Show("Администратор успешно авторизовался");
-							sr->Close();
-							return;
-						}
-					}
-				}
-				sr->Close();
+		if (user->Authorization()) {
+			if (user->login != "admin") {
+				MessageBox::Show("Пользователь успешно авторизовался");
+				user->auth = true;
+				MainWindow^ mainwin = gcnew MainWindow();
+				mainwin->Tag = user->auth;
+				mainwin->Show();
+				this->Hide();
+				return;
 			}
-
-			MessageBox::Show("Неверный логин или пароль.");
+			else
+			{
+				MessageBox::Show("Администратор успешно авторизовался");
+				return;
+			}
 		}
-		else
-			MessageBox::Show("Логин или пароль введён некорректно");
+			
 	}
 	private: System::Void LoginForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}

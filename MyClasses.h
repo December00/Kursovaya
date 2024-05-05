@@ -2,6 +2,7 @@
 using namespace System;
 using namespace System::Windows::Forms;
 using namespace System::IO;
+using namespace System::Collections;
 
 namespace MyClass
 {
@@ -19,7 +20,7 @@ namespace MyClass
 				if (!login->Contains(" ") && !pas->Contains(" "))
 					return true;
 			}
-			else return false;	
+			else return false;
 
 		};
 		bool Registration() {
@@ -92,8 +93,8 @@ namespace MyClass
 		String^ dateAr;
 		String^ airline;
 		String^ flightNumber;
-		int^ cost;
-		Flight(String^ flightNumber, String^ locationDeparture, String^ dateDep, String^ locationArrival, String^ dateAr, String^ airline, int^ cost) {
+		String^ cost;
+		Flight(String^ flightNumber, String^ locationDeparture, String^ dateDep, String^ locationArrival, String^ dateAr, String^ airline, String^ cost) {
 			this->flightNumber = flightNumber;
 			this->locationDeparture = locationDeparture;
 			this->dateDep = dateDep;
@@ -104,4 +105,68 @@ namespace MyClass
 
 		}
 	};
+	public ref class FlightsContainer {
+	public:
+		array<Flight^>^ arr;
+		int length;
+		FlightsContainer() {
+			this->length = 0;
+			this->arr = gcnew array<Flight^>(1000);
+		}
+		void FillContainer(String^ filePath) {
+			StreamReader^ reader = gcnew StreamReader(filePath);
+
+			String^ line;
+			int index = 0;
+
+			while ((line = reader->ReadLine()) != nullptr) {
+				array<String^>^ strArr = line->Split(',');
+
+				Flight^ flight = gcnew Flight(strArr[0], strArr[1], strArr[2], strArr[3], strArr[4], strArr[5], strArr[6]);
+				this->arr[index] = flight; // Добавляем рейс в массив
+				index++;
+			}
+
+			reader->Close();
+			this->length = index; // Обновляем длину
+		}
+		void Found(String^ dep, String^ ar) {
+			array<Flight^>^ tempArr = gcnew array<Flight^>(this->arr->Length);
+			int index = 0;
+			if(dep != "" && ar != "")
+			for (int i = 0; i < this->arr->Length; i++) {
+				Flight^ flight = arr[i];
+				if (flight != nullptr && flight->locationDeparture == dep && flight->locationArrival == ar)
+				{
+					tempArr[index] = flight;
+					index++;
+				}
+			}
+			if (dep == "" && ar != "") {
+				for (int i = 0; i < this->arr->Length; i++) {
+					Flight^ flight = arr[i];
+					if (flight != nullptr && flight->locationArrival == ar)
+					{
+						tempArr[index] = flight;
+						index++;
+					}
+				}
+			}
+			if (dep != "" && ar == "") {
+				for (int i = 0; i < this->arr->Length; i++) {
+					Flight^ flight = arr[i];
+					if (flight != nullptr && flight->locationDeparture == dep)
+					{
+						tempArr[index] = flight;
+						index++;
+					}
+				}
+			}
+			if (index == 0) MessageBox::Show("Рейс с такими параметрами не найден");
+			this->length = index;
+			this->arr = tempArr;
+
+		}
+	};
+	
 }

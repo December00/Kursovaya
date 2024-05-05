@@ -17,8 +17,13 @@ namespace MyClass
 		}
 		bool IsEnterValid() {
 			if (login != "" && pas != "") {
-				if (!login->Contains(" ") && !pas->Contains(" "))
-					return true;
+				if (login[0] != ' ' && pas[0] != ' ') {
+					if (!login->Contains(" ") && !pas->Contains(" ")) {
+						return true;
+					}
+					else return false;
+				}
+				else return false;
 			}
 			else return false;
 
@@ -167,6 +172,6 @@ namespace MyClass
 			this->arr = tempArr;
 
 		}
+		
 	};
-	
 }

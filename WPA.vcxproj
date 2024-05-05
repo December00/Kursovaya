@@ -122,6 +122,7 @@
   <ItemGroup>
     <ClCompile Include="LoginForm.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="OrderForm.cpp" />
     <ClCompile Include="RegForm.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
@@ -133,6 +134,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="MyClasses.h" />
+    <ClInclude Include="OrderForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="RegForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -143,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderForm.resx">
+      <DependentUpon>OrderForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegForm.resx">
       <DependentUpon>RegForm.h</DependentUpon>

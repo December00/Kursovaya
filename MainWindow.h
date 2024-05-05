@@ -1,5 +1,6 @@
 #pragma once
 #include "MyClasses.h"
+#include "OrderForm.h"
 namespace WPA {
 
 	using namespace MyClass;
@@ -133,6 +134,7 @@ namespace WPA {
 			this->listView->TabIndex = 17;
 			this->listView->UseCompatibleStateImageBehavior = false;
 			this->listView->View = System::Windows::Forms::View::Details;
+			this->listView->ItemActivate += gcnew System::EventHandler(this, &MainWindow::listView_ItemActivate);
 			// 
 			// Number
 			// 
@@ -173,9 +175,10 @@ namespace WPA {
 			this->DepTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->DepTextBox->Location = System::Drawing::Point(38, 186);
-			this->DepTextBox->Multiline = true;
 			this->DepTextBox->Name = L"DepTextBox";
+			this->DepTextBox->Padding = System::Windows::Forms::Padding(0, 50, 0, 0);
 			this->DepTextBox->Size = System::Drawing::Size(250, 50);
+			this->DepTextBox->AutoSize = false;
 			this->DepTextBox->TabIndex = 18;
 			this->DepTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
@@ -184,9 +187,10 @@ namespace WPA {
 			this->ArTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->ArTextBox->Location = System::Drawing::Point(294, 186);
-			this->ArTextBox->Multiline = true;
 			this->ArTextBox->Name = L"ArTextBox";
 			this->ArTextBox->Size = System::Drawing::Size(250, 50);
+			this->DepTextBox->Padding = System::Windows::Forms::Padding(0, 50, 0, 0);
+			this->ArTextBox->AutoSize = false;
 			this->ArTextBox->TabIndex = 19;
 			this->ArTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
@@ -223,6 +227,7 @@ namespace WPA {
 			this->HelpLabel->TabIndex = 21;
 			this->HelpLabel->Text = L"Помощь";
 			this->HelpLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			this->HelpLabel->Click += gcnew System::EventHandler(this, &MainWindow::HelpLabel_Click);
 			// 
 			// SearchButton
 			// 
@@ -306,6 +311,7 @@ namespace WPA {
 	Point lastPoint;
 	FlightsContainer^ flightsCon = gcnew FlightsContainer();
 	String^ path = "Flights.txt";
+	Flight^ currentFlight;
 	//bool isAuth = (bool)this->Tag;
 	private: System::Void ExitButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
@@ -387,6 +393,25 @@ private: System::Void ResetButton_Click(System::Object^ sender, System::EventArg
 			}
 		}
 	}
+}
+private: System::Void listView_ItemActivate(System::Object^ sender, System::EventArgs^ e) {
+	ListView^ listView = safe_cast<ListView^>(sender);
+	if (listView->SelectedItems->Count > 0) {
+		ListViewItem^ selectedItem = listView->SelectedItems[0];
+		//currentFlight->flightNumber = selectedItem->SubItems[0]->Text;
+		//currentFlight->locationDeparture = selectedItem->SubItems[1]->Text;
+		//currentFlight->dateDep = selectedItem->SubItems[2]->Text;
+		//currentFlight->locationArrival = selectedItem->SubItems[3]->Text;
+		//currentFlight->dateAr = selectedItem->SubItems[4]->Text;
+		//currentFlight->airline = selectedItem->SubItems[5]->Text;
+		//currentFlight->cost = selectedItem->SubItems[6]->Text;
+	}
+	OrderForm^ ord = gcnew OrderForm();
+	ord->Show();
+
+}
+private: System::Void HelpLabel_Click(System::Object^ sender, System::EventArgs^ e) {
+	MessageBox::Show("Чтобы забронировать или купить билет вам нужно нажать на строку таблицы, в которой находится ваш рейс, далее выбрать что вам необходимо бронь/покупка. \nДля облегчения выбора нужного вам рейса можете использовать ячейки место вылета и место прилёта для поиска конкретного рейса, а также использовать сортировку, нажав на необохдимую ячейку в оглавлении таблицы. \n\n\nЕсли у вас остались вопросы можете обратиться за помощью написав про вашу проблему на электронную почту FlyFly@gmail.com");
 }
 };
 }

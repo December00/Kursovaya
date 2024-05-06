@@ -1,6 +1,7 @@
 #pragma once
 #include "MainWindow.h"
 #include "MyClasses.h"
+#include "AdminWindow.h"
 namespace WPA {
 
 	using namespace MyClass;
@@ -158,6 +159,7 @@ namespace WPA {
 
 		}
 #pragma endregion
+		
 	private: System::Void LoginTextBox_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (this->LoginTextBox->Text == " Логин")
 			this->LoginTextBox->Text = "";
@@ -187,7 +189,7 @@ namespace WPA {
 				MessageBox::Show("Пользователь успешно авторизовался");
 				user->auth = true;
 				MainWindow^ mainwin = gcnew MainWindow();
-				mainwin->Tag = user->auth;
+				mainwin->Tag = user;
 				mainwin->Show();
 				this->Hide();
 				return;
@@ -195,6 +197,9 @@ namespace WPA {
 			else
 			{
 				MessageBox::Show("Администратор успешно авторизовался");
+				AdminWindow^ adminwin = gcnew AdminWindow();
+				adminwin->Show();
+				this->Hide();
 				return;
 			}
 		}

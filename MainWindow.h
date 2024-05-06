@@ -312,31 +312,26 @@ namespace WPA {
 	FlightsContainer^ flightsCon = gcnew FlightsContainer();
 	String^ path = "Flights.txt";
 	Flight^ currentFlight;
-	//bool isAuth = (bool)this->Tag;
 	private: System::Void ExitButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
 	}
 	private: System::Void MainWindow_Load(System::Object^ sender, System::EventArgs^ e) {
-		
-
 		flightsCon->FillContainer(path);
+		for (int i = 0; i < flightsCon->length; i++) {
+			Flight^ flight = flightsCon->arr[i];
 
-		 {
-			for (int i = 0; i < flightsCon->length; i++) {
-				Flight^ flight = flightsCon->arr[i];
-
-				if (flight != nullptr) {
-					ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
-					newItem->SubItems->Add(flight->locationDeparture);
-					newItem->SubItems->Add(flight->dateDep);
-					newItem->SubItems->Add(flight->locationArrival);
-					newItem->SubItems->Add(flight->dateAr);
-					newItem->SubItems->Add(flight->airline);
-					newItem->SubItems->Add(flight->cost);
-					listView->Items->Add(newItem);
-				}
+			if (flight != nullptr) {
+				ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
+				newItem->SubItems->Add(flight->locationDeparture);
+				newItem->SubItems->Add(flight->dateDep);
+				newItem->SubItems->Add(flight->locationArrival);
+				newItem->SubItems->Add(flight->dateAr);
+				newItem->SubItems->Add(flight->airline);
+				newItem->SubItems->Add(flight->cost);
+				listView->Items->Add(newItem);
 			}
 		}
+	
 	}
 	private: System::Void TopLabel_MouseMove(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 		if (e->Button == System::Windows::Forms::MouseButtons::Left) {
@@ -375,6 +370,7 @@ private: System::Void SearchButton_Click(System::Object^ sender, System::EventAr
 private: System::Void ResetButton_Click(System::Object^ sender, System::EventArgs^ e) {
 	DepTextBox->Text = "";
 	ArTextBox->Text = "";
+	listView->Items->Clear();
 	flightsCon->FillContainer(path);
 
 	{

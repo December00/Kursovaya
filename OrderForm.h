@@ -53,6 +53,13 @@ namespace WPA {
 
 
 	private: System::Windows::Forms::TextBox^ SurnameTextBox;
+	private: System::Windows::Forms::Label^ PassportInfoLabel;
+	private: System::Windows::Forms::TextBox^ PassportTextBox;
+
+
+
+	private: System::Windows::Forms::Button^ MakeOrderButton;
+
 
 	protected:
 
@@ -79,6 +86,9 @@ namespace WPA {
 			this->CardTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->SurnameInfoLabel = (gcnew System::Windows::Forms::Label());
 			this->SurnameTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->PassportInfoLabel = (gcnew System::Windows::Forms::Label());
+			this->PassportTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->MakeOrderButton = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// TopLabel
@@ -155,63 +165,92 @@ namespace WPA {
 			// 
 			// TicketsAmountTextBox
 			// 
-			this->TicketsAmountTextBox->Location = System::Drawing::Point(35, 279);
+			this->TicketsAmountTextBox->Location = System::Drawing::Point(35, 280);
 			this->TicketsAmountTextBox->Name = L"TicketsAmountTextBox";
-			this->TicketsAmountTextBox->Size = System::Drawing::Size(250, 50);
-			this->TicketsAmountTextBox->AutoSize = false;
+			this->TicketsAmountTextBox->Size = System::Drawing::Size(250, 22);
 			this->TicketsAmountTextBox->TabIndex = 19;
 			// 
 			// TicketsAmoutInfoLabel
 			// 
 			this->TicketsAmoutInfoLabel->AutoSize = true;
-			this->TicketsAmoutInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->TicketsAmoutInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->TicketsAmoutInfoLabel->ForeColor = System::Drawing::Color::White;
-			this->TicketsAmoutInfoLabel->Location = System::Drawing::Point(32, 242);
+			this->TicketsAmoutInfoLabel->Location = System::Drawing::Point(35, 250);
 			this->TicketsAmoutInfoLabel->Name = L"TicketsAmoutInfoLabel";
-			this->TicketsAmoutInfoLabel->Size = System::Drawing::Size(227, 28);
+			this->TicketsAmoutInfoLabel->Size = System::Drawing::Size(196, 24);
 			this->TicketsAmoutInfoLabel->TabIndex = 20;
 			this->TicketsAmoutInfoLabel->Text = L"Количество билетов";
 			// 
 			// CardInfoLabel
 			// 
 			this->CardInfoLabel->AutoSize = true;
-			this->CardInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->CardInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->CardInfoLabel->ForeColor = System::Drawing::Color::White;
-			this->CardInfoLabel->Location = System::Drawing::Point(32, 472);
+			this->CardInfoLabel->Location = System::Drawing::Point(35, 370);
 			this->CardInfoLabel->Name = L"CardInfoLabel";
-			this->CardInfoLabel->Size = System::Drawing::Size(150, 28);
+			this->CardInfoLabel->Size = System::Drawing::Size(131, 24);
 			this->CardInfoLabel->TabIndex = 22;
 			this->CardInfoLabel->Text = L"Номер карты";
 			// 
 			// CardTextBox
 			// 
-			this->CardTextBox->Location = System::Drawing::Point(35, 503);
+			this->CardTextBox->Location = System::Drawing::Point(35, 400);
 			this->CardTextBox->Name = L"CardTextBox";
-			this->CardTextBox->Size = System::Drawing::Size(250, 50);
-			this->CardTextBox->AutoSize = false;
+			this->CardTextBox->Size = System::Drawing::Size(250, 22);
 			this->CardTextBox->TabIndex = 21;
 			// 
 			// SurnameInfoLabel
 			// 
 			this->SurnameInfoLabel->AutoSize = true;
-			this->SurnameInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->SurnameInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->SurnameInfoLabel->ForeColor = System::Drawing::Color::White;
-			this->SurnameInfoLabel->Location = System::Drawing::Point(32, 366);
+			this->SurnameInfoLabel->Location = System::Drawing::Point(355, 250);
 			this->SurnameInfoLabel->Name = L"SurnameInfoLabel";
-			this->SurnameInfoLabel->Size = System::Drawing::Size(234, 28);
+			this->SurnameInfoLabel->Size = System::Drawing::Size(52, 24);
 			this->SurnameInfoLabel->TabIndex = 24;
-			this->SurnameInfoLabel->Text = L"Фамилия покупателя";
+			this->SurnameInfoLabel->Text = L"ФИО";
 			// 
 			// SurnameTextBox
 			// 
-			this->SurnameTextBox->Location = System::Drawing::Point(35, 403);
+			this->SurnameTextBox->Location = System::Drawing::Point(355, 280);
 			this->SurnameTextBox->Name = L"SurnameTextBox";
-			this->SurnameTextBox->Size = System::Drawing::Size(250, 50);
-			this->SurnameTextBox->AutoSize = false;
+			this->SurnameTextBox->Size = System::Drawing::Size(250, 22);
 			this->SurnameTextBox->TabIndex = 23;
+			// 
+			// PassportInfoLabel
+			// 
+			this->PassportInfoLabel->AutoSize = true;
+			this->PassportInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->PassportInfoLabel->ForeColor = System::Drawing::Color::White;
+			this->PassportInfoLabel->Location = System::Drawing::Point(355, 370);
+			this->PassportInfoLabel->Name = L"PassportInfoLabel";
+			this->PassportInfoLabel->Size = System::Drawing::Size(156, 24);
+			this->PassportInfoLabel->TabIndex = 26;
+			this->PassportInfoLabel->Text = L"Серия паспорта";
+			// 
+			// PassportTextBox
+			// 
+			this->PassportTextBox->Location = System::Drawing::Point(355, 400);
+			this->PassportTextBox->Name = L"PassportTextBox";
+			this->PassportTextBox->Size = System::Drawing::Size(250, 22);
+			this->PassportTextBox->TabIndex = 25;
+			// 
+			// MakeOrderButton
+			// 
+			this->MakeOrderButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->MakeOrderButton->Font = (gcnew System::Drawing::Font(L"Tahoma", 15.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->MakeOrderButton->ForeColor = System::Drawing::Color::White;
+			this->MakeOrderButton->Location = System::Drawing::Point(140, 620);
+			this->MakeOrderButton->Name = L"MakeOrderButton";
+			this->MakeOrderButton->Size = System::Drawing::Size(360, 60);
+			this->MakeOrderButton->TabIndex = 27;
+			this->MakeOrderButton->Text = L"Купить";
+			this->MakeOrderButton->UseVisualStyleBackColor = true;
 			// 
 			// OrderForm
 			// 
@@ -220,6 +259,9 @@ namespace WPA {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(72)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(240)));
 			this->ClientSize = System::Drawing::Size(640, 720);
+			this->Controls->Add(this->MakeOrderButton);
+			this->Controls->Add(this->PassportInfoLabel);
+			this->Controls->Add(this->PassportTextBox);
 			this->Controls->Add(this->SurnameInfoLabel);
 			this->Controls->Add(this->SurnameTextBox);
 			this->Controls->Add(this->CardInfoLabel);
@@ -264,6 +306,8 @@ private: System::Void BookButton_Click(System::Object^ sender, System::EventArgs
 		static_cast<System::Int32>(static_cast<System::Byte>(204)));
 	this->CardInfoLabel->Visible = false;
 	this->CardTextBox->Visible = false;
+	this->PassportInfoLabel->Visible = false;
+	this->PassportTextBox->Visible = false;
 }
 private: System::Void BuyButton_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->BuyButton->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(72)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
@@ -272,6 +316,8 @@ private: System::Void BuyButton_Click(System::Object^ sender, System::EventArgs^
 		static_cast<System::Int32>(static_cast<System::Byte>(204)));
 	this->CardInfoLabel->Visible = true;
 	this->CardTextBox->Visible = true;
+	this->PassportInfoLabel->Visible = true;
+	this->PassportTextBox->Visible = true;
 }
 };
 }

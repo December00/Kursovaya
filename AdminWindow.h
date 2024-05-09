@@ -67,6 +67,14 @@ namespace WPA {
 	private: System::Windows::Forms::ListView^ ClientsListView;
 	private: System::Windows::Forms::Label^ FlightConLabel;
 	private: System::Windows::Forms::Label^ ClientsConLabel;
+	private: System::Windows::Forms::ColumnHeader^ login;
+	private: System::Windows::Forms::ColumnHeader^ name;
+	private: System::Windows::Forms::ColumnHeader^ amount;
+	private: System::Windows::Forms::ColumnHeader^ flightnumber;
+	private: System::Windows::Forms::ColumnHeader^ flightcost;
+	private: System::Windows::Forms::ColumnHeader^ card;
+	private: System::Windows::Forms::ColumnHeader^ passport;
+	private: System::Windows::Forms::ColumnHeader^ status;
 
 
 
@@ -118,6 +126,14 @@ namespace WPA {
 			this->AddButton = (gcnew System::Windows::Forms::Button());
 			this->RemoveButton = (gcnew System::Windows::Forms::Button());
 			this->ClientsListView = (gcnew System::Windows::Forms::ListView());
+			this->login = (gcnew System::Windows::Forms::ColumnHeader());
+			this->name = (gcnew System::Windows::Forms::ColumnHeader());
+			this->amount = (gcnew System::Windows::Forms::ColumnHeader());
+			this->flightnumber = (gcnew System::Windows::Forms::ColumnHeader());
+			this->flightcost = (gcnew System::Windows::Forms::ColumnHeader());
+			this->card = (gcnew System::Windows::Forms::ColumnHeader());
+			this->passport = (gcnew System::Windows::Forms::ColumnHeader());
+			this->status = (gcnew System::Windows::Forms::ColumnHeader());
 			this->FlightConLabel = (gcnew System::Windows::Forms::Label());
 			this->ClientsConLabel = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
@@ -197,7 +213,6 @@ namespace WPA {
 			this->InfoDepLabel->Size = System::Drawing::Size(159, 28);
 			this->InfoDepLabel->TabIndex = 27;
 			this->InfoDepLabel->Text = L"Место вылета";
-			this->InfoDepLabel->Click += gcnew System::EventHandler(this, &AdminWindow::InfoDepLabel_Click);
 			// 
 			// NumberTextBox
 			// 
@@ -229,7 +244,6 @@ namespace WPA {
 			this->DateDepTextBox->Size = System::Drawing::Size(250, 34);
 			this->DateDepTextBox->TabIndex = 30;
 			this->DateDepTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			this->DateDepTextBox->TextChanged += gcnew System::EventHandler(this, &AdminWindow::DateDepTextBox_TextChanged);
 			// 
 			// DateArTextBox
 			// 
@@ -271,7 +285,6 @@ namespace WPA {
 			this->DateDepLabel->Size = System::Drawing::Size(146, 28);
 			this->DateDepLabel->TabIndex = 34;
 			this->DateDepLabel->Text = L"Дата вылета";
-			this->DateDepLabel->Click += gcnew System::EventHandler(this, &AdminWindow::DateDepLabel_Click);
 			// 
 			// DateArLabel
 			// 
@@ -348,6 +361,7 @@ namespace WPA {
 			this->listView->TabIndex = 40;
 			this->listView->UseCompatibleStateImageBehavior = false;
 			this->listView->View = System::Windows::Forms::View::Details;
+			this->listView->ColumnClick += gcnew System::Windows::Forms::ColumnClickEventHandler(this, &AdminWindow::listView_ColumnClick);
 			// 
 			// Number
 			// 
@@ -382,7 +396,7 @@ namespace WPA {
 			// Cost
 			// 
 			this->Cost->Text = L"Цена";
-			this->Cost->Width = 80;
+			this->Cost->Width = 65;
 			// 
 			// AddButton
 			// 
@@ -408,15 +422,61 @@ namespace WPA {
 			this->RemoveButton->TabIndex = 42;
 			this->RemoveButton->Text = L"Удалить";
 			this->RemoveButton->UseVisualStyleBackColor = false;
+			this->RemoveButton->Click += gcnew System::EventHandler(this, &AdminWindow::RemoveButton_Click);
 			// 
 			// ClientsListView
 			// 
+			this->ClientsListView->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(8) {
+				this->login, this->name,
+					this->amount, this->flightnumber, this->flightcost, this->card, this->passport, this->status
+			});
 			this->ClientsListView->HideSelection = false;
 			this->ClientsListView->Location = System::Drawing::Point(320, 520);
 			this->ClientsListView->Name = L"ClientsListView";
 			this->ClientsListView->Size = System::Drawing::Size(850, 250);
 			this->ClientsListView->TabIndex = 43;
 			this->ClientsListView->UseCompatibleStateImageBehavior = false;
+			this->ClientsListView->View = System::Windows::Forms::View::Details;
+			this->ClientsListView->ColumnClick += gcnew System::Windows::Forms::ColumnClickEventHandler(this, &AdminWindow::ClientsListView_ColumnClick);
+			// 
+			// login
+			// 
+			this->login->Text = L"Логин";
+			// 
+			// name
+			// 
+			this->name->Text = L"ФИО";
+			this->name->Width = 130;
+			// 
+			// amount
+			// 
+			this->amount->Text = L"Количество";
+			this->amount->Width = 65;
+			// 
+			// flightnumber
+			// 
+			this->flightnumber->Text = L"Номер рейса";
+			this->flightnumber->Width = 70;
+			// 
+			// flightcost
+			// 
+			this->flightcost->Text = L"Цена";
+			this->flightcost->Width = 40;
+			// 
+			// card
+			// 
+			this->card->Text = L"Номер карты";
+			this->card->Width = 120;
+			// 
+			// passport
+			// 
+			this->passport->Text = L"Серия паспорта";
+			this->passport->Width = 70;
+			// 
+			// status
+			// 
+			this->status->Text = L"Статус";
+			this->status->Width = 80;
 			// 
 			// FlightConLabel
 			// 
@@ -482,12 +542,16 @@ namespace WPA {
 #pragma endregion
 		Point lastPoint;
 		FlightsContainer^ flightsCon = gcnew FlightsContainer();
+		ClientsContainer^ clientsCon = gcnew ClientsContainer();
 		String^ path = "Flights.txt";
+		String^ clientpath = "Clients.txt";
+		int sort= 0;
 	private: System::Void ExitButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
 	}
 	private: System::Void AdminWindow_Load(System::Object^ sender, System::EventArgs^ e) {
 		flightsCon->FillContainer(path);
+	
 		for (int i = 0; i < flightsCon->length; i++) {
 			Flight^ flight = flightsCon->arr[i];
 
@@ -502,6 +566,23 @@ namespace WPA {
 				listView->Items->Add(newItem);
 			}
 		}
+		clientsCon->FillContainer(clientpath);
+		clientsCon->SortByLog();
+		for (int i = 0; i < clientsCon->length; i++) {
+			Client^ client = clientsCon->arr[i];
+
+			if (client != nullptr) {
+				ListViewItem^ newItem = gcnew ListViewItem(client->login);
+				newItem->SubItems->Add(client->name);
+				newItem->SubItems->Add(client->amount);
+				newItem->SubItems->Add(client->flightNumber);
+				newItem->SubItems->Add(client->cost);
+				newItem->SubItems->Add(client->card);
+				newItem->SubItems->Add(client->passport);
+				newItem->SubItems->Add(client->status);
+				ClientsListView->Items->Add(newItem);
+			}
+		}
 	}
 	
 	private: System::Void TopLabel_MouseDown(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
@@ -513,13 +594,6 @@ private: System::Void TopLabel_MouseMove(System::Object^ sender, System::Windows
 		this->Top += e->Y - lastPoint.Y;
 
 	}
-}
-private: System::Void InfoDepLabel_Click(System::Object^ sender, System::EventArgs^ e) {
-}
-
-private: System::Void DateDepLabel_Click(System::Object^ sender, System::EventArgs^ e) {
-}
-private: System::Void DateDepTextBox_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void ResetButton_Click(System::Object^ sender, System::EventArgs^ e) {
 	listView->Items->Clear();
@@ -550,29 +624,132 @@ private: System::Void AddButton_Click(System::Object^ sender, System::EventArgs^
 	flight->locationArrival = ArTextBox->Text;
 	flight->dateAr = DateArTextBox->Text;
 	flight->airline = AirlineTextBox->Text;
-	flight->cost = CostTextBox->Text;
-	flightsCon->Add(flight, path);
+	flight->cost = CostTextBox->Text;	
+	if (flight->isFullEnterValid()) {
+		flightsCon->Add(flight, path);
+		NumberTextBox->Text = "";
+		DepTextBox->Text = "";
+		DateDepTextBox->Text = "";
+		ArTextBox->Text = "";
+		DateArTextBox->Text = "";
+		AirlineTextBox->Text = "";
+		CostTextBox->Text = "";
+	}
+	else MessageBox::Show("Рейс не добавлен, заполнены не все поля или некорректный ввод");
 
 }
 private: System::Void SearchButton_Click(System::Object^ sender, System::EventArgs^ e) {
 	listView->Items->Clear();
 	flightsCon->FillContainer(path);
-	String^ dep = DepTextBox->Text;
-	String^ ar = ArTextBox->Text;
-	if (dep != "" || ar != "")
-		flightsCon->Found(dep, ar);
-	for (int i = 0; i < flightsCon->length; i++) {
-		Flight^ flight = flightsCon->arr[i];
+	if (NumberTextBox->Text != "" && !NumberTextBox->Text->Contains(" ")) {
+		String^ num = NumberTextBox->Text;
+		//if (sort == 0) {
+			
+			flightsCon->SearchByNum(num);
+			for (int i = 0; i < flightsCon->length; i++) {
+				Flight^ flight = flightsCon->arr[i];
 
-		if (flight != nullptr) {
-			ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
-			newItem->SubItems->Add(flight->locationDeparture);
-			newItem->SubItems->Add(flight->dateDep);
-			newItem->SubItems->Add(flight->locationArrival);
-			newItem->SubItems->Add(flight->dateAr);
-			newItem->SubItems->Add(flight->airline);
-			newItem->SubItems->Add(flight->cost);
-			listView->Items->Add(newItem);
+				if (flight != nullptr) {
+					ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
+					newItem->SubItems->Add(flight->locationDeparture);
+					newItem->SubItems->Add(flight->dateDep);
+					newItem->SubItems->Add(flight->locationArrival);
+					newItem->SubItems->Add(flight->dateAr);
+					newItem->SubItems->Add(flight->airline);
+					newItem->SubItems->Add(flight->cost);
+					listView->Items->Add(newItem);
+				}
+			}
+		/* }
+		else
+		{
+			//case с бинарным поиском
+		}*/
+	}
+	else
+	{
+		String^ dep = DepTextBox->Text;
+		String^ ar = ArTextBox->Text;
+		if (dep != "" || ar != "")
+			flightsCon->Search(dep, ar);
+		for (int i = 0; i < flightsCon->length; i++) {
+			Flight^ flight = flightsCon->arr[i];
+
+			if (flight != nullptr) {
+				ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
+				newItem->SubItems->Add(flight->locationDeparture);
+				newItem->SubItems->Add(flight->dateDep);
+				newItem->SubItems->Add(flight->locationArrival);
+				newItem->SubItems->Add(flight->dateAr);
+				newItem->SubItems->Add(flight->airline);
+				newItem->SubItems->Add(flight->cost);
+				listView->Items->Add(newItem);
+			}
+		}
+	}
+}
+private: System::Void RemoveButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	String^ number = NumberTextBox->Text;
+	flightsCon->Remove(number);
+	NumberTextBox->Text = "";
+}
+private: System::Void listView_ColumnClick(System::Object^ sender, System::Windows::Forms::ColumnClickEventArgs^ e) {
+	if (sort == 0) {
+		listView->Items->Clear();
+		flightsCon->SortByNum();
+
+		for (int i = 0; i < flightsCon->length; i++) {
+			Flight^ flight = flightsCon->arr[i];
+			if (flight != nullptr) {
+				ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
+				newItem->SubItems->Add(flight->locationDeparture);
+				newItem->SubItems->Add(flight->dateDep);
+				newItem->SubItems->Add(flight->locationArrival);
+				newItem->SubItems->Add(flight->dateAr);
+				newItem->SubItems->Add(flight->airline);
+				newItem->SubItems->Add(flight->cost);
+				listView->Items->Add(newItem);
+			}
+		}
+		sort = 1;
+	}else
+	{
+		listView->Items->Clear();
+		flightsCon->FillContainer(path);
+
+		for (int i = 0; i < flightsCon->length; i++) {
+			Flight^ flight = flightsCon->arr[i];
+			if (flight != nullptr) {
+				ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
+				newItem->SubItems->Add(flight->locationDeparture);
+				newItem->SubItems->Add(flight->dateDep);
+				newItem->SubItems->Add(flight->locationArrival);
+				newItem->SubItems->Add(flight->dateAr);
+				newItem->SubItems->Add(flight->airline);
+				newItem->SubItems->Add(flight->cost);
+				listView->Items->Add(newItem);
+			}
+		}
+		sort = 0;
+	}
+}
+private: System::Void ClientsListView_ColumnClick(System::Object^ sender, System::Windows::Forms::ColumnClickEventArgs^ e) {
+
+	ClientsListView->Items->Clear();
+	clientsCon->SortByLog();
+	for (int i = 0; i < clientsCon->length; i++) {
+		Client^ client = clientsCon->arr[i];
+
+		if (client != nullptr) {
+			ListViewItem^ newItem = gcnew ListViewItem(client->login);
+			newItem->SubItems->Add(client->name);
+			newItem->SubItems->Add(client->amount);
+			newItem->SubItems->Add(client->flightNumber);
+			newItem->SubItems->Add(client->cost);
+			newItem->SubItems->Add(client->card);
+			newItem->SubItems->Add(client->passport);
+			newItem->SubItems->Add(client->status);
+			ClientsListView->Items->Add(newItem);
 		}
 	}
 }

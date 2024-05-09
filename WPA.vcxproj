@@ -123,6 +123,7 @@
     <ClCompile Include="AdminWindow.cpp" />
     <ClCompile Include="LoginForm.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="MyTicketsForm.cpp" />
     <ClCompile Include="OrderForm.cpp" />
     <ClCompile Include="RegForm.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -131,13 +132,13 @@
     <ClInclude Include="AdminWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="LoginForm.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
     <ClInclude Include="MainWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="MyClasses.h" />
+    <ClInclude Include="MyTicketsForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="OrderForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -149,11 +150,11 @@
     <EmbeddedResource Include="AdminWindow.resx">
       <DependentUpon>AdminWindow.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
-      <DependentUpon>LoginForm.h</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyTicketsForm.resx">
+      <DependentUpon>MyTicketsForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrderForm.resx">
       <DependentUpon>OrderForm.h</DependentUpon>

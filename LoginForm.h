@@ -77,6 +77,7 @@ namespace WPA {
 			this->PasTextBox->Size = System::Drawing::Size(280, 34);
 			this->PasTextBox->TabIndex = 18;
 			this->PasTextBox->Text = L" Пароль";
+			this->PasTextBox->UseSystemPasswordChar = true;
 			this->PasTextBox->Click += gcnew System::EventHandler(this, &LoginForm::PasTextBox_Click);
 			// 
 			// CheckButton
@@ -188,7 +189,7 @@ namespace WPA {
 			if (user->login != "admin") {
 				MessageBox::Show("Пользователь успешно авторизовался");
 				user->auth = true;
-				MainWindow^ mainwin = gcnew MainWindow();
+				MainWindow^ mainwin = gcnew MainWindow(user);
 				mainwin->Tag = user;
 				mainwin->Show();
 				this->Hide();

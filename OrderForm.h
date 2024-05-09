@@ -16,8 +16,15 @@ namespace WPA {
 	public ref class OrderForm : public System::Windows::Forms::Form
 	{
 	public:
-		OrderForm(void)
+		Flight^ currentFlight;
+	private: System::Windows::Forms::Label^ FlightInfoLabel;
+	private: System::Windows::Forms::Label^ CostInfoLabel;
+	public:
+		Client^ currentClient;
+		OrderForm(Flight^ flight, Client^ client)
 		{
+			this->currentFlight = flight;
+			this->currentClient = client;
 			InitializeComponent();
 			//
 			//TODO: добавьте код конструктора
@@ -89,6 +96,8 @@ namespace WPA {
 			this->PassportInfoLabel = (gcnew System::Windows::Forms::Label());
 			this->PassportTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->MakeOrderButton = (gcnew System::Windows::Forms::Button());
+			this->FlightInfoLabel = (gcnew System::Windows::Forms::Label());
+			this->CostInfoLabel = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// TopLabel
@@ -165,7 +174,7 @@ namespace WPA {
 			// 
 			// TicketsAmountTextBox
 			// 
-			this->TicketsAmountTextBox->Location = System::Drawing::Point(35, 280);
+			this->TicketsAmountTextBox->Location = System::Drawing::Point(32, 378);
 			this->TicketsAmountTextBox->Name = L"TicketsAmountTextBox";
 			this->TicketsAmountTextBox->Size = System::Drawing::Size(250, 22);
 			this->TicketsAmountTextBox->TabIndex = 19;
@@ -176,7 +185,7 @@ namespace WPA {
 			this->TicketsAmoutInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->TicketsAmoutInfoLabel->ForeColor = System::Drawing::Color::White;
-			this->TicketsAmoutInfoLabel->Location = System::Drawing::Point(35, 250);
+			this->TicketsAmoutInfoLabel->Location = System::Drawing::Point(32, 348);
 			this->TicketsAmoutInfoLabel->Name = L"TicketsAmoutInfoLabel";
 			this->TicketsAmoutInfoLabel->Size = System::Drawing::Size(196, 24);
 			this->TicketsAmoutInfoLabel->TabIndex = 20;
@@ -188,7 +197,7 @@ namespace WPA {
 			this->CardInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->CardInfoLabel->ForeColor = System::Drawing::Color::White;
-			this->CardInfoLabel->Location = System::Drawing::Point(35, 370);
+			this->CardInfoLabel->Location = System::Drawing::Point(32, 468);
 			this->CardInfoLabel->Name = L"CardInfoLabel";
 			this->CardInfoLabel->Size = System::Drawing::Size(131, 24);
 			this->CardInfoLabel->TabIndex = 22;
@@ -196,7 +205,7 @@ namespace WPA {
 			// 
 			// CardTextBox
 			// 
-			this->CardTextBox->Location = System::Drawing::Point(35, 400);
+			this->CardTextBox->Location = System::Drawing::Point(32, 498);
 			this->CardTextBox->Name = L"CardTextBox";
 			this->CardTextBox->Size = System::Drawing::Size(250, 22);
 			this->CardTextBox->TabIndex = 21;
@@ -207,7 +216,7 @@ namespace WPA {
 			this->SurnameInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->SurnameInfoLabel->ForeColor = System::Drawing::Color::White;
-			this->SurnameInfoLabel->Location = System::Drawing::Point(355, 250);
+			this->SurnameInfoLabel->Location = System::Drawing::Point(352, 348);
 			this->SurnameInfoLabel->Name = L"SurnameInfoLabel";
 			this->SurnameInfoLabel->Size = System::Drawing::Size(52, 24);
 			this->SurnameInfoLabel->TabIndex = 24;
@@ -215,7 +224,7 @@ namespace WPA {
 			// 
 			// SurnameTextBox
 			// 
-			this->SurnameTextBox->Location = System::Drawing::Point(355, 280);
+			this->SurnameTextBox->Location = System::Drawing::Point(352, 378);
 			this->SurnameTextBox->Name = L"SurnameTextBox";
 			this->SurnameTextBox->Size = System::Drawing::Size(250, 22);
 			this->SurnameTextBox->TabIndex = 23;
@@ -226,7 +235,7 @@ namespace WPA {
 			this->PassportInfoLabel->Font = (gcnew System::Drawing::Font(L"Tahoma", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->PassportInfoLabel->ForeColor = System::Drawing::Color::White;
-			this->PassportInfoLabel->Location = System::Drawing::Point(355, 370);
+			this->PassportInfoLabel->Location = System::Drawing::Point(352, 468);
 			this->PassportInfoLabel->Name = L"PassportInfoLabel";
 			this->PassportInfoLabel->Size = System::Drawing::Size(156, 24);
 			this->PassportInfoLabel->TabIndex = 26;
@@ -234,7 +243,7 @@ namespace WPA {
 			// 
 			// PassportTextBox
 			// 
-			this->PassportTextBox->Location = System::Drawing::Point(355, 400);
+			this->PassportTextBox->Location = System::Drawing::Point(352, 498);
 			this->PassportTextBox->Name = L"PassportTextBox";
 			this->PassportTextBox->Size = System::Drawing::Size(250, 22);
 			this->PassportTextBox->TabIndex = 25;
@@ -251,6 +260,31 @@ namespace WPA {
 			this->MakeOrderButton->TabIndex = 27;
 			this->MakeOrderButton->Text = L"Купить";
 			this->MakeOrderButton->UseVisualStyleBackColor = true;
+			this->MakeOrderButton->Click += gcnew System::EventHandler(this, &OrderForm::MakeOrderButton_Click);
+			// 
+			// FlightInfoLabel
+			// 
+			this->FlightInfoLabel->AutoSize = true;
+			this->FlightInfoLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->FlightInfoLabel->ForeColor = System::Drawing::Color::White;
+			this->FlightInfoLabel->Location = System::Drawing::Point(10, 227);
+			this->FlightInfoLabel->Name = L"FlightInfoLabel";
+			this->FlightInfoLabel->Size = System::Drawing::Size(279, 29);
+			this->FlightInfoLabel->TabIndex = 28;
+			this->FlightInfoLabel->Text = L"Информация о рейсе";
+			// 
+			// CostInfoLabel
+			// 
+			this->CostInfoLabel->AutoSize = true;
+			this->CostInfoLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->CostInfoLabel->ForeColor = System::Drawing::Color::White;
+			this->CostInfoLabel->Location = System::Drawing::Point(10, 198);
+			this->CostInfoLabel->Name = L"CostInfoLabel";
+			this->CostInfoLabel->Size = System::Drawing::Size(264, 29);
+			this->CostInfoLabel->TabIndex = 29;
+			this->CostInfoLabel->Text = L"Информация о цене";
 			// 
 			// OrderForm
 			// 
@@ -259,6 +293,8 @@ namespace WPA {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(72)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(240)));
 			this->ClientSize = System::Drawing::Size(640, 720);
+			this->Controls->Add(this->CostInfoLabel);
+			this->Controls->Add(this->FlightInfoLabel);
 			this->Controls->Add(this->MakeOrderButton);
 			this->Controls->Add(this->PassportInfoLabel);
 			this->Controls->Add(this->PassportTextBox);
@@ -282,10 +318,25 @@ namespace WPA {
 		}
 #pragma endregion
 		Point lastPoint;
-		
+		ClientsContainer^ clientsCon = gcnew ClientsContainer();
+		String^ path = "Clients.txt";
+		bool IsDigits(System::String^ str)
+		{
+			for each (wchar_t c in str)
+			{
+				if (c != ' ') 
+					if (c < '0' || c > '9')
+					{
+						return false;
+					}
+			}
+			return true;
+		}
 	
 private: System::Void OrderForm_Load(System::Object^ sender, System::EventArgs^ e) {
-	}
+	this->FlightInfoLabel->Text = currentFlight->flightNumber + " " + currentFlight->airline + "\n" + currentFlight->locationDeparture + " " + currentFlight->dateDep + " - " + currentFlight->locationArrival + " " + currentFlight->dateAr;
+	this->CostInfoLabel->Text = "Цена 1 билета: " + currentFlight->cost;
+}
 private: System::Void ExitButton_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Close();
 }
@@ -308,6 +359,8 @@ private: System::Void BookButton_Click(System::Object^ sender, System::EventArgs
 	this->CardTextBox->Visible = false;
 	this->PassportInfoLabel->Visible = false;
 	this->PassportTextBox->Visible = false;
+	this->CostInfoLabel->Visible = false;
+	this->MakeOrderButton->Text = "Забронировать";
 }
 private: System::Void BuyButton_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->BuyButton->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(72)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
@@ -318,6 +371,40 @@ private: System::Void BuyButton_Click(System::Object^ sender, System::EventArgs^
 	this->CardTextBox->Visible = true;
 	this->PassportInfoLabel->Visible = true;
 	this->PassportTextBox->Visible = true;
+	this->CostInfoLabel->Visible = true;
+	this->MakeOrderButton->Text = "Купить";
+}
+private: System::Void MakeOrderButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (IsDigits(this->TicketsAmountTextBox->Text) && IsDigits(this->CardTextBox->Text))
+	{
+		if (Convert::ToInt64(this->TicketsAmountTextBox->Text) <= 5)
+		{
+			currentClient->amount = TicketsAmountTextBox->Text;
+			currentClient->flightNumber = currentFlight->flightNumber;
+			currentClient->name = SurnameTextBox->Text;
+			currentClient->cost = currentFlight->cost;
+			if (this->MakeOrderButton->Text == "Купить") {
+				currentClient->card = CardTextBox->Text;
+				currentClient->passport = PassportTextBox->Text;
+				currentClient->status = "Куплено";
+			}
+			else
+			{
+				currentClient->status = "Забронировано";
+				currentClient->card = "-";
+				currentClient->passport = "-";
+			}
+			clientsCon->Add(currentClient, path);
+			this->Close();
+		}
+		else
+		{
+			MessageBox::Show("Вы не можете забронировать или купить больше 5 билетов");
+			this->TicketsAmountTextBox->Text = "";
+		}
+	}
+	else
+		MessageBox::Show("Поле номер карты и количество билетов должно состоять только из цифр");
 }
 };
 }

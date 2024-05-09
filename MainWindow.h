@@ -1,6 +1,7 @@
 #pragma once
 #include "MyClasses.h"
 #include "OrderForm.h"
+#include "MyTicketsForm.h"
 namespace WPA {
 
 	using namespace MyClass;
@@ -16,8 +17,10 @@ namespace WPA {
 	public ref class MainWindow : public System::Windows::Forms::Form
 	{
 	public:
-		MainWindow(void)
+		User^ user;
+		MainWindow(User^ user)
 		{
+			this->user = user;
 			InitializeComponent();
 			
 		}
@@ -134,6 +137,7 @@ namespace WPA {
 			this->listView->TabIndex = 17;
 			this->listView->UseCompatibleStateImageBehavior = false;
 			this->listView->View = System::Windows::Forms::View::Details;
+			this->listView->ColumnClick += gcnew System::Windows::Forms::ColumnClickEventHandler(this, &MainWindow::listView_ColumnClick);
 			this->listView->ItemActivate += gcnew System::EventHandler(this, &MainWindow::listView_ItemActivate);
 			// 
 			// Number
@@ -176,9 +180,7 @@ namespace WPA {
 				static_cast<System::Byte>(204)));
 			this->DepTextBox->Location = System::Drawing::Point(38, 186);
 			this->DepTextBox->Name = L"DepTextBox";
-			this->DepTextBox->Padding = System::Windows::Forms::Padding(0, 50, 0, 0);
-			this->DepTextBox->Size = System::Drawing::Size(250, 50);
-			this->DepTextBox->AutoSize = false;
+			this->DepTextBox->Size = System::Drawing::Size(250, 34);
 			this->DepTextBox->TabIndex = 18;
 			this->DepTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
@@ -188,9 +190,7 @@ namespace WPA {
 				static_cast<System::Byte>(204)));
 			this->ArTextBox->Location = System::Drawing::Point(294, 186);
 			this->ArTextBox->Name = L"ArTextBox";
-			this->ArTextBox->Size = System::Drawing::Size(250, 50);
-			this->DepTextBox->Padding = System::Windows::Forms::Padding(0, 50, 0, 0);
-			this->ArTextBox->AutoSize = false;
+			this->ArTextBox->Size = System::Drawing::Size(250, 34);
 			this->ArTextBox->TabIndex = 19;
 			this->ArTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
@@ -210,6 +210,7 @@ namespace WPA {
 			this->MyTicketsLabel->TabIndex = 20;
 			this->MyTicketsLabel->Text = L"Мои билеты";
 			this->MyTicketsLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			this->MyTicketsLabel->Click += gcnew System::EventHandler(this, &MainWindow::MyTicketsLabel_Click);
 			// 
 			// HelpLabel
 			// 
@@ -311,7 +312,7 @@ namespace WPA {
 	Point lastPoint;
 	FlightsContainer^ flightsCon = gcnew FlightsContainer();
 	String^ path = "Flights.txt";
-	Flight^ currentFlight;
+	Flight^ currentFlight = gcnew Flight();
 	private: System::Void ExitButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
 	}
@@ -351,7 +352,7 @@ private: System::Void SearchButton_Click(System::Object^ sender, System::EventAr
 	String^ dep = DepTextBox->Text;
 	String^ ar = ArTextBox->Text;
 	if(dep != "" || ar != "")
-		flightsCon->Found(dep, ar);
+		flightsCon->Search(dep, ar);
 	for (int i = 0; i < flightsCon->length; i++) {
 		Flight^ flight = flightsCon->arr[i];
 
@@ -373,41 +374,70 @@ private: System::Void ResetButton_Click(System::Object^ sender, System::EventArg
 	listView->Items->Clear();
 	flightsCon->FillContainer(path);
 
-	{
-		for (int i = 0; i < flightsCon->length; i++) {
-			Flight^ flight = flightsCon->arr[i];
-
-			if (flight != nullptr) {
-				ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
-				newItem->SubItems->Add(flight->locationDeparture);
-				newItem->SubItems->Add(flight->dateDep);
-				newItem->SubItems->Add(flight->locationArrival);
-				newItem->SubItems->Add(flight->dateAr);
-				newItem->SubItems->Add(flight->airline);
-				newItem->SubItems->Add(flight->cost);
-				listView->Items->Add(newItem);
-			}
+	
+	for (int i = 0; i < flightsCon->length; i++) {
+		Flight^ flight = flightsCon->arr[i];
+		if (flight != nullptr) {
+			ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
+			newItem->SubItems->Add(flight->locationDeparture);
+			newItem->SubItems->Add(flight->dateDep);
+			newItem->SubItems->Add(flight->locationArrival);
+			newItem->SubItems->Add(flight->dateAr);
+			newItem->SubItems->Add(flight->airline);
+			newItem->SubItems->Add(flight->cost);
+			listView->Items->Add(newItem);
 		}
 	}
+	
 }
 private: System::Void listView_ItemActivate(System::Object^ sender, System::EventArgs^ e) {
-	ListView^ listView = safe_cast<ListView^>(sender);
-	if (listView->SelectedItems->Count > 0) {
-		ListViewItem^ selectedItem = listView->SelectedItems[0];
-		//currentFlight->flightNumber = selectedItem->SubItems[0]->Text;
-		//currentFlight->locationDeparture = selectedItem->SubItems[1]->Text;
-		//currentFlight->dateDep = selectedItem->SubItems[2]->Text;
-		//currentFlight->locationArrival = selectedItem->SubItems[3]->Text;
-		//currentFlight->dateAr = selectedItem->SubItems[4]->Text;
-		//currentFlight->airline = selectedItem->SubItems[5]->Text;
-		//currentFlight->cost = selectedItem->SubItems[6]->Text;
+	if (user->auth) {
+		Client^ currentClient = gcnew Client(user->login);
+		ListView^ listView = safe_cast<ListView^>(sender);
+		if (listView->SelectedItems->Count > 0) {
+			ListViewItem^ selectedItem = listView->SelectedItems[0];
+			currentFlight->flightNumber = selectedItem->SubItems[0]->Text;
+			currentFlight->locationDeparture = selectedItem->SubItems[1]->Text;
+			currentFlight->dateDep = selectedItem->SubItems[2]->Text;
+			currentFlight->locationArrival = selectedItem->SubItems[3]->Text;
+			currentFlight->dateAr = selectedItem->SubItems[4]->Text;
+			currentFlight->airline = selectedItem->SubItems[5]->Text;
+			currentFlight->cost = selectedItem->SubItems[6]->Text;
+		}
+		OrderForm^ ord = gcnew OrderForm(currentFlight, currentClient);
+		ord->Show();
 	}
-	OrderForm^ ord = gcnew OrderForm();
-	ord->Show();
-
 }
 private: System::Void HelpLabel_Click(System::Object^ sender, System::EventArgs^ e) {
-	MessageBox::Show("Чтобы забронировать или купить билет вам нужно нажать на строку таблицы, в которой находится ваш рейс, далее выбрать что вам необходимо бронь/покупка. \nДля облегчения выбора нужного вам рейса можете использовать ячейки место вылета и место прилёта для поиска конкретного рейса, а также использовать сортировку, нажав на необохдимую ячейку в оглавлении таблицы. \n\n\nЕсли у вас остались вопросы можете обратиться за помощью написав про вашу проблему на электронную почту FlyFly@gmail.com");
+	MessageBox::Show("Чтобы забронировать или купить билет вам нужно нажать на номер рейса, далее выбрать что вам необходимо бронь/покупка. \nДля облегчения выбора нужного вам рейса можете использовать ячейки место вылета и место прилёта для поиска конкретного рейса, а также использовать сортировку, нажав на необходимую ячейку в оглавлении таблицы. \n\n\nЕсли у вас остались вопросы можете обратиться за помощью написав про вашу проблему на электронную почту FlyFly@gmail.com");
+}
+private: System::Void MyTicketsLabel_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (user->auth)
+	{
+		MyTicketsForm^ mtfrm = gcnew MyTicketsForm(user);
+		mtfrm->Show();
+	}
+	else
+		MessageBox::Show("Для просмотра своих билетов необходимо авторизоваться");
+}
+private: System::Void listView_ColumnClick(System::Object^ sender, System::Windows::Forms::ColumnClickEventArgs^ e) {
+	
+	listView->Items->Clear();
+	flightsCon->SortByNum();
+
+	for (int i = 0; i < flightsCon->length; i++) {
+		Flight^ flight = flightsCon->arr[i];
+		if (flight != nullptr) {
+			ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
+			newItem->SubItems->Add(flight->locationDeparture);
+			newItem->SubItems->Add(flight->dateDep);
+			newItem->SubItems->Add(flight->locationArrival);
+			newItem->SubItems->Add(flight->dateAr);
+			newItem->SubItems->Add(flight->airline);
+			newItem->SubItems->Add(flight->cost);
+			listView->Items->Add(newItem);
+		}
+	}
 }
 };
 }

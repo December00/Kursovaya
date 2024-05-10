@@ -101,6 +101,8 @@ namespace WPA {
 			this->TopLabel->TabIndex = 17;
 			this->TopLabel->Text = L"Мои билеты";
 			this->TopLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			this->TopLabel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyTicketsForm::TopLabel_MouseDown);
+			this->TopLabel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyTicketsForm::TopLabel_MouseMove);
 			// 
 			// ExitButton
 			// 
@@ -193,7 +195,6 @@ namespace WPA {
 			this->NumberTextBox->RightToLeft = System::Windows::Forms::RightToLeft::No;
 			this->NumberTextBox->Size = System::Drawing::Size(200, 40);
 			this->NumberTextBox->TabIndex = 46;
-			this->NumberTextBox->AutoSize = false;
 			// 
 			// SearchButton
 			// 
@@ -263,6 +264,7 @@ namespace WPA {
 
 		}
 #pragma endregion
+		Point lastPoint;
 		ClientsContainer^ clientsCon = gcnew ClientsContainer();
 		String^ clientpath = "Clients.txt";
 		bool del = false;
@@ -379,6 +381,16 @@ private: System::Void ResetButton_Click(System::Object^ sender, System::EventArg
 			   ClientsListView->Items->Add(newItem);
 		   }
 	   }
+}
+private: System::Void TopLabel_MouseDown(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+	lastPoint = Point(e->X, e->Y);
+}
+private: System::Void TopLabel_MouseMove(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+	if (e->Button == System::Windows::Forms::MouseButtons::Left) {
+		this->Left += e->X - lastPoint.X;
+		this->Top += e->Y - lastPoint.Y;
+
+	}
 }
 };
 }

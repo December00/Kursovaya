@@ -175,6 +175,8 @@ namespace WPA {
 			this->TopLabel->TabIndex = 8;
 			this->TopLabel->Text = L"ћеню авторизации";
 			this->TopLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			this->TopLabel->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &RegForm::TopLabel_MouseDown);
+			this->TopLabel->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &RegForm::TopLabel_MouseMove);
 			// 
 			// LogButton
 			// 
@@ -293,6 +295,7 @@ namespace WPA {
 		}
 		
 	}
+		   Point lastPoint;
 
 	private: System::Void RegButton_Click(System::Object^ sender, System::EventArgs^ e) {
 
@@ -320,6 +323,16 @@ private: System::Void LogButton_Click(System::Object^ sender, System::EventArgs^
 		this->LoginTextBox->Text = "";
 	if(this->PasTextBox->Text != " ¬ведите пароль") 
 		this->PasTextBox->Text = "";
+}
+private: System::Void TopLabel_MouseDown(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+	lastPoint = Point(e->X, e->Y);
+}
+private: System::Void TopLabel_MouseMove(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+	if (e->Button == System::Windows::Forms::MouseButtons::Left) {
+		this->Left += e->X - lastPoint.X;
+		this->Top += e->Y - lastPoint.Y;
+
+	}
 }
 };
 }

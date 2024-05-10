@@ -180,7 +180,8 @@ namespace WPA {
 				static_cast<System::Byte>(204)));
 			this->DepTextBox->Location = System::Drawing::Point(38, 186);
 			this->DepTextBox->Name = L"DepTextBox";
-			this->DepTextBox->Size = System::Drawing::Size(250, 34);
+			this->DepTextBox->Size = System::Drawing::Size(250, 50);
+			this->DepTextBox->AutoSize = false;
 			this->DepTextBox->TabIndex = 18;
 			this->DepTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
@@ -190,7 +191,8 @@ namespace WPA {
 				static_cast<System::Byte>(204)));
 			this->ArTextBox->Location = System::Drawing::Point(294, 186);
 			this->ArTextBox->Name = L"ArTextBox";
-			this->ArTextBox->Size = System::Drawing::Size(250, 34);
+			this->ArTextBox->Size = System::Drawing::Size(250, 50);
+			this->ArTextBox->AutoSize = false;
 			this->ArTextBox->TabIndex = 19;
 			this->ArTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 

@@ -222,30 +222,59 @@ namespace MyClass
 			this->arr = tempArr;
 
 		}
-		
-		void Add(Flight^ flight, String^ path) {
-			if (flight->isFullEnterValid()) {
-				StreamReader^ reader = gcnew StreamReader(path);
+		void BinarySearch(String^ flightNumber) {
+			int left = 0;
+			int right = length - 1;
+			array<Flight^>^ tempArr = gcnew array<Flight^>(this->arr->Length);
+			int index = 0;
+			while (left <= right) {
+				int mid = left + (right - left) / 2;
 
-				String^ line;
-				while ((line = reader->ReadLine()) != nullptr) {
-					array<String^>^ strArr = line->Split(',');
-					if (flight == nullptr || flight->flightNumber == strArr[0])
-					{
-						MessageBox::Show("Рейс с таким номером уже существует");
-						return;
-					}
+				if (arr[mid]->flightNumber->CompareTo(flightNumber) == 0) {
+					tempArr[index] = arr[mid];
+					index++;
 				}
-				reader->Close();
-				if (flight != nullptr) {
-					length++;
-					this->arr[length] = flight;
-					StreamWriter^ sw = gcnew StreamWriter(path, true);
-					sw->WriteLine(flight->flightNumber + "," + flight->locationDeparture + "," + flight->dateDep + "," + flight->locationArrival + "," + flight->dateAr + "," + flight->airline + "," + flight->cost);
-					sw->Close();
+
+				if (arr[mid]->flightNumber->CompareTo(flightNumber) > 0) {
+					right = mid - 1;
+				}
+				else {
+					left = mid + 1;
 				}
 			}
-			else MessageBox::Show("Поле или поля заполнены некорректно");
+			if (index == 0) {
+				MessageBox::Show("Рейс с такими параметрами не найден");
+			}
+			this->length = index;
+			this->arr = tempArr;
+		}
+		void Add(Flight^ flight, String^ path) {
+			if (File::Exists(path)) {
+				if (flight->isFullEnterValid()) {
+					StreamReader^ reader = gcnew StreamReader(path);
+
+					String^ line;
+					while ((line = reader->ReadLine()) != nullptr) {
+						array<String^>^ strArr = line->Split(',');
+						if (flight == nullptr || flight->flightNumber == strArr[0])
+						{
+							MessageBox::Show("Рейс с таким номером уже существует");
+							return;
+						}
+					}
+					reader->Close();
+					if (flight != nullptr) {
+						length++;
+						this->arr[length] = flight;
+						StreamWriter^ sw = gcnew StreamWriter(path, true);
+						sw->WriteLine(flight->flightNumber + "," + flight->locationDeparture + "," + flight->dateDep + "," + flight->locationArrival + "," + flight->dateAr + "," + flight->airline + "," + flight->cost);
+						sw->Close();
+					}
+				}
+				else MessageBox::Show("Поле или поля заполнены некорректно");
+			}
+			else
+				MessageBox::Show("Ошибка открытия файла");
 		}
 		void Remove(String^ number) {
 			String^ tempFilePath = "temp.txt";
@@ -394,6 +423,7 @@ namespace MyClass
 					}
 					
 			}
+			reader->Close();
 			if (client != nullptr) {
 				StreamWriter^ sw = gcnew StreamWriter(path, true);
 				client->cost = Convert::ToString(Convert::ToInt32(client->cost) * Convert::ToInt32(client->amount));

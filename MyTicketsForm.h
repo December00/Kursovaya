@@ -55,6 +55,7 @@ namespace WPA {
 
 	private: System::Windows::Forms::Label^ InfoNumLabel;
 	private: System::Windows::Forms::Button^ ResetButton;
+	private: System::Windows::Forms::Button^ AcceptButton;
 
 	protected:
 
@@ -86,6 +87,7 @@ namespace WPA {
 			this->SearchButton = (gcnew System::Windows::Forms::Button());
 			this->InfoNumLabel = (gcnew System::Windows::Forms::Label());
 			this->ResetButton = (gcnew System::Windows::Forms::Button());
+			this->AcceptButton = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// TopLabel
@@ -129,7 +131,7 @@ namespace WPA {
 					this->flightnumber, this->flightcost, this->card, this->passport, this->status
 			});
 			this->ClientsListView->HideSelection = false;
-			this->ClientsListView->Location = System::Drawing::Point(15, 115);
+			this->ClientsListView->Location = System::Drawing::Point(12, 152);
 			this->ClientsListView->Name = L"ClientsListView";
 			this->ClientsListView->Size = System::Drawing::Size(610, 320);
 			this->ClientsListView->TabIndex = 44;
@@ -176,11 +178,12 @@ namespace WPA {
 			// 
 			this->CancelButton->BackColor = System::Drawing::Color::LightGray;
 			this->CancelButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->CancelButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->CancelButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->CancelButton->Location = System::Drawing::Point(425, 70);
+			this->CancelButton->ForeColor = System::Drawing::Color::Black;
+			this->CancelButton->Location = System::Drawing::Point(422, 70);
 			this->CancelButton->Name = L"CancelButton";
-			this->CancelButton->Size = System::Drawing::Size(200, 40);
+			this->CancelButton->Size = System::Drawing::Size(200, 35);
 			this->CancelButton->TabIndex = 45;
 			this->CancelButton->Text = L"Отменить бронь";
 			this->CancelButton->UseVisualStyleBackColor = false;
@@ -190,22 +193,23 @@ namespace WPA {
 			// 
 			this->NumberTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->NumberTextBox->Location = System::Drawing::Point(15, 70);
+			this->NumberTextBox->Location = System::Drawing::Point(12, 111);
 			this->NumberTextBox->Name = L"NumberTextBox";
 			this->NumberTextBox->RightToLeft = System::Windows::Forms::RightToLeft::No;
-			this->NumberTextBox->Size = System::Drawing::Size(200, 40);
+			this->NumberTextBox->AutoSize = false;
+			this->NumberTextBox->Size = System::Drawing::Size(200, 35);
 			this->NumberTextBox->TabIndex = 46;
 			// 
 			// SearchButton
 			// 
 			this->SearchButton->BackColor = System::Drawing::Color::LightGray;
 			this->SearchButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->SearchButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->SearchButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->SearchButton->ForeColor = System::Drawing::Color::Black;
-			this->SearchButton->Location = System::Drawing::Point(220, 70);
+			this->SearchButton->Location = System::Drawing::Point(216, 111);
 			this->SearchButton->Name = L"SearchButton";
-			this->SearchButton->Size = System::Drawing::Size(200, 40);
+			this->SearchButton->Size = System::Drawing::Size(200, 35);
 			this->SearchButton->TabIndex = 47;
 			this->SearchButton->Text = L"Поиск";
 			this->SearchButton->UseVisualStyleBackColor = false;
@@ -217,7 +221,7 @@ namespace WPA {
 			this->InfoNumLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->InfoNumLabel->ForeColor = System::Drawing::Color::White;
-			this->InfoNumLabel->Location = System::Drawing::Point(12, 42);
+			this->InfoNumLabel->Location = System::Drawing::Point(7, 83);
 			this->InfoNumLabel->Name = L"InfoNumLabel";
 			this->InfoNumLabel->Size = System::Drawing::Size(144, 25);
 			this->InfoNumLabel->TabIndex = 48;
@@ -225,20 +229,33 @@ namespace WPA {
 			// 
 			// ResetButton
 			// 
-			this->ResetButton->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(72)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
-				static_cast<System::Int32>(static_cast<System::Byte>(240)));
-			this->ResetButton->FlatAppearance->BorderSize = 2;
+			this->ResetButton->BackColor = System::Drawing::Color::LightGray;
 			this->ResetButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->ResetButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->ResetButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->ResetButton->ForeColor = System::Drawing::Color::White;
-			this->ResetButton->Location = System::Drawing::Point(15, 435);
+			this->ResetButton->ForeColor = System::Drawing::Color::Black;
+			this->ResetButton->Location = System::Drawing::Point(216, 70);
 			this->ResetButton->Name = L"ResetButton";
-			this->ResetButton->Size = System::Drawing::Size(610, 40);
+			this->ResetButton->Size = System::Drawing::Size(200, 35);
 			this->ResetButton->TabIndex = 49;
 			this->ResetButton->Text = L"Обновить";
 			this->ResetButton->UseVisualStyleBackColor = false;
 			this->ResetButton->Click += gcnew System::EventHandler(this, &MyTicketsForm::ResetButton_Click);
+			// 
+			// AcceptButton
+			// 
+			this->AcceptButton->BackColor = System::Drawing::Color::LightGray;
+			this->AcceptButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->AcceptButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->AcceptButton->ForeColor = System::Drawing::Color::Black;
+			this->AcceptButton->Location = System::Drawing::Point(422, 111);
+			this->AcceptButton->Name = L"AcceptButton";
+			this->AcceptButton->Size = System::Drawing::Size(200, 35);
+			this->AcceptButton->TabIndex = 50;
+			this->AcceptButton->Text = L"Подтвердить бронь";
+			this->AcceptButton->UseVisualStyleBackColor = false;
+			this->AcceptButton->Click += gcnew System::EventHandler(this, &MyTicketsForm::AcceptButton_Click);
 			// 
 			// MyTicketsForm
 			// 
@@ -247,6 +264,7 @@ namespace WPA {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(72)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(240)));
 			this->ClientSize = System::Drawing::Size(640, 480);
+			this->Controls->Add(this->AcceptButton);
 			this->Controls->Add(this->ResetButton);
 			this->Controls->Add(this->InfoNumLabel);
 			this->Controls->Add(this->SearchButton);
@@ -268,6 +286,7 @@ namespace WPA {
 		ClientsContainer^ clientsCon = gcnew ClientsContainer();
 		String^ clientpath = "Clients.txt";
 		bool del = false;
+		bool accept = false;
 	private: System::Void ExitButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Close();
 	}
@@ -314,12 +333,16 @@ private: System::Void CancelButton_Click(System::Object^ sender, System::EventAr
 		this->CancelButton->BackColor = System::Drawing::Color::LightGray;
 		this->CancelButton->ForeColor = System::Drawing::Color::Black;
 		del = false;
+
+		this->AcceptButton->Enabled = true;
 	}
 	else
 	{
 		this->CancelButton->BackColor = System::Drawing::Color::DimGray;
 		this->CancelButton->ForeColor = System::Drawing::Color::White;
 		del = true;
+
+		this->AcceptButton->Enabled = false;
 	}
 }
 	 
@@ -361,6 +384,53 @@ private: System::Void ClientsListView_ItemActivate(System::Object^ sender, Syste
 				}
 			}
 	}
+	else {
+		if (accept) {
+			ListView^ ClientsListVIew = safe_cast<ListView^>(sender);
+			if (ClientsListVIew->SelectedItems->Count > 0)
+			{
+				ListViewItem^ selectedItem = ClientsListVIew->SelectedItems[0];
+				Client^ client = gcnew Client();
+			
+				client->login = user->login;
+				client->name = selectedItem->SubItems[0]->Text;
+				client->amount = selectedItem->SubItems[1]->Text;
+				client->flightNumber = selectedItem->SubItems[2]->Text;
+				client->cost = selectedItem->SubItems[3]->Text;
+				client->card = selectedItem->SubItems[4]->Text;
+				client->passport = selectedItem->SubItems[5]->Text;
+				client->status = selectedItem->SubItems[6]->Text;
+				if (client->status == "Забронировано") {
+					clientsCon->Remove(client);
+					client->status = "Куплено";
+					clientsCon->Add(client, clientpath);
+					MessageBox::Show("Бронь подтверждена");
+					this->CancelButton->BackColor = System::Drawing::Color::LightGray;
+					this->CancelButton->ForeColor = System::Drawing::Color::Black;
+					accept = false;
+				}
+				else
+					MessageBox::Show("Можно подтверждать только забронированные билеты");
+				ClientsListView->Items->Clear();
+			}
+			clientsCon->FillContainer(clientpath);
+			clientsCon->Search(user->login);
+			for (int i = 0; i < clientsCon->length; i++) {
+				Client^ client = clientsCon->arr[i];
+
+				if (client != nullptr) {
+					ListViewItem^ newItem = gcnew ListViewItem(client->name);
+					newItem->SubItems->Add(client->amount);
+					newItem->SubItems->Add(client->flightNumber);
+					newItem->SubItems->Add(client->cost);
+					newItem->SubItems->Add(client->card);
+					newItem->SubItems->Add(client->passport);
+					newItem->SubItems->Add(client->status);
+					ClientsListView->Items->Add(newItem);
+				}
+			}
+		}
+	}
 
 }
 private: System::Void ResetButton_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -390,6 +460,22 @@ private: System::Void TopLabel_MouseMove(System::Object^ sender, System::Windows
 		this->Left += e->X - lastPoint.X;
 		this->Top += e->Y - lastPoint.Y;
 
+	}
+}
+private: System::Void AcceptButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (accept) {
+		this->AcceptButton->BackColor = System::Drawing::Color::LightGray;
+		this->AcceptButton->ForeColor = System::Drawing::Color::Black;
+		accept = false;
+
+		this->CancelButton->Enabled = true;
+	}
+	else
+	{
+		this->AcceptButton->BackColor = System::Drawing::Color::DimGray;
+		this->AcceptButton->ForeColor = System::Drawing::Color::White;
+		accept = true;
+		this->CancelButton->Enabled = false;
 	}
 }
 };

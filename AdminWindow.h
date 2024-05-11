@@ -599,7 +599,6 @@ private: System::Void ResetButton_Click(System::Object^ sender, System::EventArg
 	listView->Items->Clear();
 	flightsCon->FillContainer(path);
 
-	{
 		for (int i = 0; i < flightsCon->length; i++) {
 			Flight^ flight = flightsCon->arr[i];
 
@@ -614,7 +613,7 @@ private: System::Void ResetButton_Click(System::Object^ sender, System::EventArg
 				listView->Items->Add(newItem);
 			}
 		}
-	}
+	
 }
 private: System::Void AddButton_Click(System::Object^ sender, System::EventArgs^ e) {
 	Flight^ flight = gcnew Flight();
@@ -643,7 +642,7 @@ private: System::Void SearchButton_Click(System::Object^ sender, System::EventAr
 	flightsCon->FillContainer(path);
 	if (NumberTextBox->Text != "" && !NumberTextBox->Text->Contains(" ")) {
 		String^ num = NumberTextBox->Text;
-		//if (sort == 0) {
+		if (sort == 0) {
 			
 			flightsCon->SearchByNum(num);
 			for (int i = 0; i < flightsCon->length; i++) {
@@ -660,11 +659,26 @@ private: System::Void SearchButton_Click(System::Object^ sender, System::EventAr
 					listView->Items->Add(newItem);
 				}
 			}
-		/* }
+		}
 		else
 		{
-			//case с бинарным поиском
-		}*/
+			flightsCon->SortByNum();
+			flightsCon->BinarySearch(num);
+			for (int i = 0; i < flightsCon->length; i++) {
+				Flight^ flight = flightsCon->arr[i];
+
+				if (flight != nullptr) {
+					ListViewItem^ newItem = gcnew ListViewItem(flight->flightNumber);
+					newItem->SubItems->Add(flight->locationDeparture);
+					newItem->SubItems->Add(flight->dateDep);
+					newItem->SubItems->Add(flight->locationArrival);
+					newItem->SubItems->Add(flight->dateAr);
+					newItem->SubItems->Add(flight->airline);
+					newItem->SubItems->Add(flight->cost);
+					listView->Items->Add(newItem);
+				}
+			}
+		}
 	}
 	else
 	{

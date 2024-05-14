@@ -312,6 +312,7 @@ namespace WPA {
 
 private: System::Void SearchButton_Click(System::Object^ sender, System::EventArgs^ e) {
 	ClientsListView->Items->Clear();
+	clientsCon->FillContainer(clientpath);
 	clientsCon->Search(user->login, this->NumberTextBox->Text);
 	for (int i = 0; i < clientsCon->length; i++) {
 		Client^ client = clientsCon->arr[i];

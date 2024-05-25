@@ -178,6 +178,8 @@ namespace WPA {
 			this->TicketsAmountTextBox->Name = L"TicketsAmountTextBox";
 			this->TicketsAmountTextBox->Size = System::Drawing::Size(250, 22);
 			this->TicketsAmountTextBox->TabIndex = 19;
+			this->TicketsAmountTextBox->Text = L"X";
+			this->TicketsAmountTextBox->Click += gcnew System::EventHandler(this, &OrderForm::TicketsAmountTextBox_Click);
 			// 
 			// TicketsAmoutInfoLabel
 			// 
@@ -209,6 +211,8 @@ namespace WPA {
 			this->CardTextBox->Name = L"CardTextBox";
 			this->CardTextBox->Size = System::Drawing::Size(250, 22);
 			this->CardTextBox->TabIndex = 21;
+			this->CardTextBox->Text = L"XXXX XXXX XXXX XXXX";
+			this->CardTextBox->Click += gcnew System::EventHandler(this, &OrderForm::CardTextBox_Click);
 			// 
 			// SurnameInfoLabel
 			// 
@@ -228,6 +232,8 @@ namespace WPA {
 			this->SurnameTextBox->Name = L"SurnameTextBox";
 			this->SurnameTextBox->Size = System::Drawing::Size(250, 22);
 			this->SurnameTextBox->TabIndex = 23;
+			this->SurnameTextBox->Text = L"Иванов Иван Иванович";
+			this->SurnameTextBox->Click += gcnew System::EventHandler(this, &OrderForm::SurnameTextBox_Click);
 			// 
 			// PassportInfoLabel
 			// 
@@ -247,6 +253,8 @@ namespace WPA {
 			this->PassportTextBox->Name = L"PassportTextBox";
 			this->PassportTextBox->Size = System::Drawing::Size(250, 22);
 			this->PassportTextBox->TabIndex = 25;
+			this->PassportTextBox->Text = L"HB1234567";
+			this->PassportTextBox->Click += gcnew System::EventHandler(this, &OrderForm::PassportTextBox_Click);
 			// 
 			// MakeOrderButton
 			// 
@@ -374,37 +382,65 @@ private: System::Void BuyButton_Click(System::Object^ sender, System::EventArgs^
 	this->CostInfoLabel->Visible = true;
 	this->MakeOrderButton->Text = "Купить";
 }
-private: System::Void MakeOrderButton_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (IsDigits(this->TicketsAmountTextBox->Text) && IsDigits(this->CardTextBox->Text))
-	{
-		if (Convert::ToInt64(this->TicketsAmountTextBox->Text) <= 5)
-		{
-			currentClient->amount = TicketsAmountTextBox->Text;
-			currentClient->flightNumber = currentFlight->flightNumber;
-			currentClient->name = SurnameTextBox->Text;
-			currentClient->cost = currentFlight->cost;
-			if (this->MakeOrderButton->Text == "Купить") {
-				currentClient->card = CardTextBox->Text;
-				currentClient->passport = PassportTextBox->Text;
-				currentClient->status = "Куплено";
+	private: System::Void MakeOrderButton_Click(System::Object^ sender, System::EventArgs^ e) {
+		 {
+			if (IsDigits(this->TicketsAmountTextBox->Text) && IsDigits(this->CardTextBox->Text))
+			{
+				if (Convert::ToInt64(this->TicketsAmountTextBox->Text) >= 1) {
+					if (Convert::ToInt64(this->TicketsAmountTextBox->Text) <= 5)
+					{
+						currentClient->amount = TicketsAmountTextBox->Text;
+						currentClient->flightNumber = currentFlight->flightNumber;
+						currentClient->name = SurnameTextBox->Text;
+						currentClient->cost = currentFlight->cost;
+						if (this->MakeOrderButton->Text == "Купить") {
+							currentClient->card = CardTextBox->Text;
+							currentClient->passport = PassportTextBox->Text;
+							currentClient->status = "Куплено";
+						}	
+						else
+						{
+							currentClient->status = "Забронировано";
+							currentClient->card = "-";
+							currentClient->passport = "-";
+						}
+						if (currentClient->IsEnterValid()) {
+							clientsCon->Add(currentClient, path);
+							this->Close();
+						}
+						
+					}
+					else
+					{
+						MessageBox::Show("Вы не можете забронировать или купить больше 5 билетов");
+						this->TicketsAmountTextBox->Text = "";
+					}
+				}
+				else
+				{
+					MessageBox::Show("Вы не можете забронировать или купить 0 билетов");
+					this->TicketsAmountTextBox->Text = "";
+				}
 			}
 			else
-			{
-				currentClient->status = "Забронировано";
-				currentClient->card = "-";
-				currentClient->passport = "-";
-			}
-			clientsCon->Add(currentClient, path);
-			this->Close();
-		}
-		else
-		{
-			MessageBox::Show("Вы не можете забронировать или купить больше 5 билетов");
-			this->TicketsAmountTextBox->Text = "";
+				MessageBox::Show("Поле номер карты и количество билетов должно состоять только из цифр");
 		}
 	}
-	else
-		MessageBox::Show("Поле номер карты и количество билетов должно состоять только из цифр");
+private: System::Void SurnameTextBox_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (this->SurnameTextBox->Text == "Иванов Иван Иванович")
+		this->SurnameTextBox->Text = "";
+}
+private: System::Void CardTextBox_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (this->CardTextBox->Text == "XXXX XXXX XXXX XXXX")
+		this->CardTextBox->Text = "";
+}
+private: System::Void PassportTextBox_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (this->PassportTextBox->Text == "HB1234567")
+		this->PassportTextBox->Text = "";
+}
+private: System::Void TicketsAmountTextBox_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (this->TicketsAmountTextBox->Text == "X")
+		this->TicketsAmountTextBox->Text = "";
 }
 };
 }

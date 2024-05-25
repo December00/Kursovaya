@@ -315,6 +315,9 @@ namespace WPA {
 	FlightsContainer^ flightsCon = gcnew FlightsContainer();
 	String^ path = "Flights.txt";
 	Flight^ currentFlight = gcnew Flight();
+	int sortByNum = 0;
+	int sortByLDep = 0;
+	int sortByLArr = 0;
 	private: System::Void ExitButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
 	}
@@ -423,10 +426,53 @@ private: System::Void MyTicketsLabel_Click(System::Object^ sender, System::Event
 		MessageBox::Show("Для просмотра своих билетов необходимо авторизоваться");
 }
 private: System::Void listView_ColumnClick(System::Object^ sender, System::Windows::Forms::ColumnClickEventArgs^ e) {
-	
-	listView->Items->Clear();
-	flightsCon->SortByNum();
+	if (e->Column == 0) {
+		if (sortByNum == 0) {
+			flightsCon->SortByNum();
+			sortByNum = 1;
+		}
+		else if (sortByNum == 1) {
+			flightsCon->ReSortByNum();
+			sortByNum = 2;
+		}
+		else if (sortByNum == 2) {
+			flightsCon->FillContainer(path);
+			sortByNum = 0;
+		}
+	}
+	else
+		if (e->Column == 1) {
+			if (sortByLDep == 0) {
+				flightsCon->SortByLDep();
+				sortByLDep = 1;
+			}
+			else if (sortByLDep == 1) {
+				flightsCon->ReSortByLDep();
+				sortByLDep = 2;
+			}
+			else if (sortByLDep == 2) {
+				flightsCon->FillContainer(path);
+				sortByLDep = 0;
+			}
+		}
+		else if (e->Column == 3)
+		{
+			if (sortByLArr == 0) {
+				flightsCon->SortByLArr();
+				sortByLArr = 1;
+			}
+			else if (sortByLArr == 1) {
+				flightsCon->ReSortByLArr();
+				sortByLArr = 2;
+			}
+			else if (sortByLArr == 2) {
+				flightsCon->FillContainer(path);
+				sortByLArr = 0;
+			}
+		}
+		else return;
 
+	listView->Items->Clear();
 	for (int i = 0; i < flightsCon->length; i++) {
 		Flight^ flight = flightsCon->arr[i];
 		if (flight != nullptr) {

@@ -89,8 +89,6 @@ namespace MyClass
 					sr->Close();
 				}
 
-				MessageBox::Show("Неверный логин или пароль.");
-				return false;
 			}
 			else
 				MessageBox::Show("Логин или пароль введён некорректно");
@@ -130,8 +128,11 @@ namespace MyClass
 		{
 			if (locationDeparture != "" && locationArrival != "" && dateDep != "" && dateAr != "" && airline != "" && cost != "" && flightNumber != "") {
 				if (locationDeparture[0] != ' ' && locationArrival[0] != ' ' && dateDep[0] != ' ' && dateAr[0] != ' ' && airline[0] != ' ' && cost[0] != ' ' && flightNumber[0] != ' ') {
-					if (!dateAr->Contains(" ") && !dateDep->Contains(" ") && !flightNumber->Contains(" ") && !cost->Contains(" ")) {
-						return true;
+					if (!dateAr->Contains(",") && !dateDep->Contains(",") && !flightNumber->Contains(",") && !cost->Contains(",") && !locationArrival->Contains(",") && !locationDeparture->Contains(",")) {
+						if (!dateAr->Contains(" ") && !dateDep->Contains(" ") && !flightNumber->Contains(" ") && !cost->Contains(" ")) {
+							return true;
+						}
+						else return false;
 					}
 					else return false;
 				}
@@ -369,7 +370,362 @@ namespace MyClass
 				--right;
 			}
 		}
-		
+		void ReSortByNum() {
+			if (length < 10) {
+				ReShakerSortByNum();
+			}
+			else if (length < 50) {
+				ReSelectionSortByNum();
+			}
+			else {
+				ReQuickSortByNum(0, length);
+			}
+		}
+
+		void ReQuickSortByNum(int low, int high) {
+			if (low < high) {
+				int pivotIndex = RePartitionByNum(low, high);
+				ReQuickSortByNum(low, pivotIndex - 1);
+				ReQuickSortByNum(pivotIndex + 1, high);
+			}
+		}
+
+		int RePartitionByNum(int low, int high) {
+			Flight^ pivot = arr[high];
+			int i = low - 1;
+
+			for (int j = low; j < high; j++) {
+				if (pivot != nullptr && arr[j] != nullptr) {
+					if (arr[j]->flightNumber->CompareTo(pivot->flightNumber) >= 0) {
+						i++;
+						Swap(i, j);
+					}
+				}
+			}
+
+			Swap(i + 1, high);
+			return i + 1;
+		}
+
+		void ReSelectionSortByNum() {
+			for (int i = 0; i < length - 1; i++) {
+				int minIndex = i;
+
+				for (int j = i + 1; j < length; j++) {
+					if (arr[j]->flightNumber->CompareTo(arr[minIndex]->flightNumber) > 0) {
+						minIndex = j;
+					}
+				}
+
+				Swap(i, minIndex);
+			}
+		}
+
+		void ReShakerSortByNum() {
+			int left = 0;
+			int right = length - 1;
+
+			while (left <= right) {
+				for (int i = right; i > left; --i) {
+					if (arr[i - 1]->flightNumber->CompareTo(arr[i]->flightNumber) < 0) {
+						Swap(i - 1, i);
+					}
+				}
+				++left;
+
+				for (int i = left; i < right; ++i) {
+					if (arr[i]->flightNumber->CompareTo(arr[i + 1]->flightNumber) < 0) {
+						Swap(i, i + 1);
+					}
+				}
+				--right;
+			}
+		}
+		void SortByLDep() {
+			if (length < 10) {
+				ShakerSortByLDep();
+			}
+			else if (length < 50) {
+				SelectionSortByLDep();
+			}
+			else {
+				QuickSortByLDep(0, length);
+			}
+		}
+
+		void QuickSortByLDep(int low, int high) {
+			if (low < high) {
+				int pivotIndex = PartitionByLDep(low, high);
+				QuickSortByLDep(low, pivotIndex - 1);
+				QuickSortByLDep(pivotIndex + 1, high);
+			}
+		}
+
+		int PartitionByLDep(int low, int high) {
+			Flight^ pivot = arr[high];
+			int i = low - 1;
+
+			for (int j = low; j < high; j++) {
+				if (pivot != nullptr && arr[j] != nullptr) {
+					if (arr[j]->locationDeparture->CompareTo(pivot->locationDeparture) <= 0) {
+						i++;
+						Swap(i, j);
+					}
+				}
+			}
+
+			Swap(i + 1, high);
+			return i + 1;
+		}
+
+		void SelectionSortByLDep() {
+			for (int i = 0; i < length - 1; i++) {
+				int minIndex = i;
+
+				for (int j = i + 1; j < length; j++) {
+					if (arr[j]->locationDeparture->CompareTo(arr[minIndex]->locationDeparture) < 0) {
+						minIndex = j;
+					}
+				}
+
+				Swap(i, minIndex);
+			}
+		}
+
+		void ShakerSortByLDep() {
+			int left = 0;
+			int right = length - 1;
+
+			while (left <= right) {
+				for (int i = right; i > left; --i) {
+					if (arr[i - 1]->locationDeparture->CompareTo(arr[i]->locationDeparture) > 0) {
+						Swap(i - 1, i);
+					}
+				}
+				++left;
+
+				for (int i = left; i < right; ++i) {
+					if (arr[i]->locationDeparture->CompareTo(arr[i + 1]->locationDeparture) > 0) {
+						Swap(i, i + 1);
+					}
+				}
+				--right;
+			}
+		}
+
+		void ReSortByLDep() {
+			if (length < 10) {
+				ReShakerSortByLDep();
+			}
+			else if (length < 50) {
+				ReSelectionSortByLDep();
+			}
+			else {
+				ReQuickSortByLDep(0, length);
+			}
+		}
+
+		void ReQuickSortByLDep(int low, int high) {
+			if (low < high) {
+				int pivotIndex = RePartitionByLDep(low, high);
+				ReQuickSortByLDep(low, pivotIndex - 1);
+				ReQuickSortByLDep(pivotIndex + 1, high);
+			}
+		}
+
+		int RePartitionByLDep(int low, int high) {
+			Flight^ pivot = arr[high];
+			int i = low - 1;
+
+			for (int j = low; j < high; j++) {
+				if (pivot != nullptr && arr[j] != nullptr) {
+					if (arr[j]->locationDeparture->CompareTo(pivot->locationDeparture) >= 0) {
+						i++;
+						Swap(i, j);
+					}
+				}
+			}
+
+			Swap(i + 1, high);
+			return i + 1;
+		}
+
+		void ReSelectionSortByLDep() {
+			for (int i = 0; i < length - 1; i++) {
+				int minIndex = i;
+
+				for (int j = i + 1; j < length; j++) {
+					if (arr[j]->locationDeparture->CompareTo(arr[minIndex]->locationDeparture) > 0) {
+						minIndex = j;
+					}
+				}
+
+				Swap(i, minIndex);
+			}
+		}
+
+		void ReShakerSortByLDep() {
+			int left = 0;
+			int right = length - 1;
+
+			while (left <= right) {
+				for (int i = right; i > left; --i) {
+					if (arr[i - 1]->locationDeparture->CompareTo(arr[i]->locationDeparture) < 0) {
+						Swap(i - 1, i);
+					}
+				}
+				++left;
+
+				for (int i = left; i < right; ++i) {
+					if (arr[i]->locationDeparture->CompareTo(arr[i + 1]->locationDeparture) < 0) {
+						Swap(i, i + 1);
+					}
+				}
+				--right;
+			}
+		}
+		void SortByLArr() {
+			if (length < 10) {
+				ShakerSortByLArr();
+			}
+			else if (length < 50) {
+				SelectionSortByLArr();
+			}
+			else {
+				QuickSortByLArr(0, length);
+			}
+		}
+
+		void QuickSortByLArr(int low, int high) {
+			if (low < high) {
+				int pivotIndex = PartitionByLArr(low, high);
+				QuickSortByLArr(low, pivotIndex - 1);
+				QuickSortByLArr(pivotIndex + 1, high);
+			}
+		}
+
+		int PartitionByLArr(int low, int high) {
+			Flight^ pivot = arr[high];
+			int i = low - 1;
+
+			for (int j = low; j < high; j++) {
+				if (pivot != nullptr && arr[j] != nullptr) {
+					if (arr[j]->locationArrival->CompareTo(pivot->locationArrival) <= 0) {
+						i++;
+						Swap(i, j);
+					}
+				}
+			}
+
+			Swap(i + 1, high);
+			return i + 1;
+		}
+
+		void SelectionSortByLArr() {
+			for (int i = 0; i < length - 1; i++) {
+				int minIndex = i;
+
+				for (int j = i + 1; j < length; j++) {
+					if (arr[j]->locationArrival->CompareTo(arr[minIndex]->locationArrival) < 0) {
+						minIndex = j;
+					}
+				}
+
+				Swap(i, minIndex);
+			}
+		}
+
+		void ShakerSortByLArr() {
+			int left = 0;
+			int right = length - 1;
+
+			while (left <= right) {
+				for (int i = right; i > left; --i) {
+					if (arr[i - 1]->locationArrival->CompareTo(arr[i]->locationArrival) > 0) {
+						Swap(i - 1, i);
+					}
+				}
+				++left;
+
+				for (int i = left; i < right; ++i) {
+					if (arr[i]->locationArrival->CompareTo(arr[i + 1]->locationArrival) > 0) {
+						Swap(i, i + 1);
+					}
+				}
+				--right;
+			}
+		}
+
+		void ReSortByLArr() {
+			if (length < 10) {
+				ReShakerSortByLArr();
+			}
+			else if (length < 50) {
+				ReSelectionSortByLArr();
+			}
+			else {
+				ReQuickSortByLArr(0, length);
+			}
+		}
+
+		void ReQuickSortByLArr(int low, int high) {
+			if (low < high) {
+				int pivotIndex = RePartitionByLArr(low, high);
+				ReQuickSortByLArr(low, pivotIndex - 1);
+				ReQuickSortByLArr(pivotIndex + 1, high);
+			}
+		}
+
+		int RePartitionByLArr(int low, int high) {
+			Flight^ pivot = arr[high];
+			int i = low - 1;
+
+			for (int j = low; j < high; j++) {
+				if (pivot != nullptr && arr[j] != nullptr) {
+					if (arr[j]->locationArrival->CompareTo(pivot->locationArrival) >= 0) {
+						i++;
+						Swap(i, j);
+					}
+				}
+			}
+
+			Swap(i + 1, high);
+			return i + 1;
+		}
+
+		void ReSelectionSortByLArr() {
+			for (int i = 0; i < length - 1; i++) {
+				int minIndex = i;
+
+				for (int j = i + 1; j < length; j++) {
+					if (arr[j]->locationArrival->CompareTo(arr[minIndex]->locationArrival) > 0) {
+						minIndex = j;
+					}
+				}
+
+				Swap(i, minIndex);
+			}
+		}
+		void ReShakerSortByLArr() {
+			int left = 0;
+			int right = length - 1;
+
+			while (left <= right) {
+				for (int i = right; i > left; --i) {
+					if (arr[i - 1]->locationArrival->CompareTo(arr[i]->locationArrival) < 0) {
+						Swap(i - 1, i);
+					}
+				}
+				++left;
+
+				for (int i = left; i < right; ++i) {
+					if (arr[i]->locationArrival->CompareTo(arr[i + 1]->locationArrival) < 0) {
+						Swap(i, i + 1);
+					}
+				}
+				--right;
+			}
+		}
 	};
 
 	public ref class Client {
@@ -400,6 +756,76 @@ namespace MyClass
 		{
 
 		}
+		bool IsEnterValid() {
+			if (name != "" && passport != "" && amount != "" && card != "") {
+				if (IsCardValid()) {
+					return true;
+				}
+				else return false;
+			}
+			else
+				return false;
+		}
+		bool IsCardValid() {
+			String^ str = this->card;
+			if (str->Length == 19) {
+				for (int i = 0; i < 19; i++) {
+					if ((i+1) % 5 == 0)
+					{
+						if (str[i] != ' ') {
+							MessageBox::Show("Номер карты введён некорректно");
+							return false;
+						}
+					}
+					else
+					{
+						if (str[i] > '9' || str[i] < '0') {
+							MessageBox::Show("Номер карты введён некорректно");
+							return false;
+						}
+					}
+				}
+				if (!LuhnCheck()) {
+					MessageBox::Show("Невалидный номер карты");
+					return false;
+				}
+				return true;
+			}
+			else {
+				MessageBox::Show("Номер карты введён некорректно");
+				return false;
+			}
+			
+		}
+		bool LuhnCheck() {
+			String^ str = this->card;
+			bool first = true;
+			int sum = 0;
+			for(int i = 0; i < 19; i++)
+			{
+				if ((i + 1) % 5 == 0)
+				{
+					continue;
+				}
+				int num = str[i] - '0';
+
+				if (first)
+				{
+					num *= 2;
+					if (num > 9)
+						num -= 9;
+					sum += num;
+					first = false;
+				}
+				else
+				{
+					sum += num;
+					first = true;
+				}
+			}
+			return (sum % 10 == 0);
+		}
+		
 	};
 	public ref class ClientsContainer {
 	public:
@@ -419,6 +845,8 @@ namespace MyClass
 				if (client == nullptr || client->flightNumber == strArr[3])
 					{
 					MessageBox::Show("Вы уже купили билет на этот рейс");
+
+					reader->Close();
 					return;
 					}
 					
